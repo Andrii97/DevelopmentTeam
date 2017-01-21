@@ -60,4 +60,41 @@ public class Task {
     public void setTaskRequirements(HashMap<Qualification, Integer> taskRequirements) {
         this.taskRequirements = taskRequirements;
     }
+
+    public static class Builder{
+        Task instance = new Task();
+
+        public Builder setId(int id) {
+            instance.id = id;
+            return this;
+        }
+        public Builder setName(String name) {
+            instance.name = name;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            instance.description = description;
+            return this;
+        }
+
+        public Builder setStatementOfWork(StatementOfWork statementOfWork) {
+            instance.statementOfWork = statementOfWork;
+            return this;
+        }
+
+        public Builder setFinished(Boolean finished) {
+            instance.isFinished = finished;
+            return this;
+        }
+
+        public Builder setTaskRequirements(HashMap<Qualification, Integer> taskRequirements) {
+            instance.taskRequirements = taskRequirements;
+            return this;
+        }
+
+        public Task build() {
+            return instance;
+        }
+    }
 }

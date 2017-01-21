@@ -40,4 +40,32 @@ public class DeveloperHasTask {
     public void setElapsedTime(Integer elapsedTime) {
         this.elapsedTime = elapsedTime;
     }
+
+    public static class Builder {
+        DeveloperHasTask instance = new DeveloperHasTask();
+
+        public Builder setDeveloper(Developer developer) {
+            instance.developer = developer;
+            return this;
+        }
+
+        public Builder setTask(Task task) {
+            instance.task = task;
+            return this;
+        }
+
+        public Builder setProject(Project project) {
+            instance.project = project;
+            return this;
+        }
+
+        public Builder setElapsedTime(Integer elapsedTime) {
+            instance.elapsedTime = elapsedTime;
+            return this;
+        }
+
+        public DeveloperHasTask build() {
+            return instance;
+        }
+    }
 }

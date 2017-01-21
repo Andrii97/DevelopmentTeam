@@ -61,4 +61,42 @@ public class StatementOfWork {
     public void setApproved(Boolean approved) {
         isApproved = approved;
     }
+
+    public static class Builder{
+        StatementOfWork instance = new StatementOfWork();
+
+        public Builder setId(Integer id) {
+            instance.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            instance.name = name;
+            return this;
+        }
+
+        public Builder setFilingDate(LocalDate filingDate) {
+            instance.filingDate = filingDate;
+            return this;
+        }
+
+        public Builder setTasks(List<Task> tasks) {
+            instance.tasks = tasks;
+            return this;
+        }
+
+        public Builder setCustomer(User customer) {
+            instance.customer = customer;
+            return this;
+        }
+
+        public Builder setApproved(Boolean approved) {
+            instance.isApproved = approved;
+            return this;
+        }
+
+        public StatementOfWork build() {
+            return instance;
+        }
+    }
 }

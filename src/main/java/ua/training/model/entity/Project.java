@@ -69,4 +69,47 @@ public class Project {
     public void setBill(Integer bill) {
         this.bill = bill;
     }
+
+    public static class Builder {
+        Project instance = new Project();
+
+        public Builder setId(Integer id) {
+            instance.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            instance.name = name;
+            return this;
+        }
+
+        public Builder setStatementOfWork(StatementOfWork statementOfWork) {
+            instance.statementOfWork = statementOfWork;
+            return this;
+        }
+
+        public Builder setStartDate(LocalDate startDate) {
+            instance.startDate = startDate;
+            return this;
+        }
+
+        public Builder setEndDate(LocalDate endDate) {
+            instance.endDate = endDate;
+            return this;
+        }
+
+        public Builder setManager(User manager) {
+            instance.manager = manager;
+            return this;
+        }
+
+        public Builder setBill(Integer bill) {
+            instance.bill = bill;
+            return this;
+        }
+
+        public Project build() {
+            return instance;
+        }
+    }
 }
