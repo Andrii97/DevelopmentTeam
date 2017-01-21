@@ -4,6 +4,7 @@ import ua.training.model.dao.*;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import com.mysql.jdbc.Driver;
 import java.sql.DriverManager;
 import java.util.Properties;
 
@@ -20,6 +21,7 @@ public class JdbcDaoFactory extends DaoFactory{
                     DaoFactory.class.getResourceAsStream(DB_FILE);
             Properties dbProps = new Properties();
             dbProps.load(inputStream);
+            new Driver();
             String url = dbProps.getProperty(DB_URL);
             connection = DriverManager.getConnection(url , dbProps);
         }catch(Exception e){
