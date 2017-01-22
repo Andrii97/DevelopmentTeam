@@ -14,8 +14,12 @@ public class JdbcDaoConnection implements DaoConnection {
     private boolean inTransaction = false;
 
     public JdbcDaoConnection(Connection connection) {
-        super(); // todo: what is it?
         this.connection = connection;
+        try {
+            System.out.println("conn autocommit = " + connection.getAutoCommit());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

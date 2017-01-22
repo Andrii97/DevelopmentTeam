@@ -22,11 +22,10 @@ public class UserService {
     }
 
     public Optional<User> login(String email, String password){
-        // ToDo:
-        // DaoConnection connection = daoFactory.getConnection();
-        // UserDao dao = daoFactory.createUserDao(connection);
-        UserDao dao = daoFactory.createUserDao();
-        return dao.findByEmail(email)
-                .filter(user -> password.equals(user.getPassword()));
+        try( DaoConnection connection = daoFactory.getConnection() ){
+            UserDao dao = daoFactory.createUserDao(connection);
+            return dao.findByEmail(email)
+                    .filter(user -> password.equals(user.getPassword()));
+        }
     }
 }

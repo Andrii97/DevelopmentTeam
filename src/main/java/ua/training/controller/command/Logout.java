@@ -12,7 +12,8 @@ import java.io.IOException;
  */
 public class Logout implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.getSession().invalidate();
         return UrlHolder.LOGIN_PAGE;
     }
