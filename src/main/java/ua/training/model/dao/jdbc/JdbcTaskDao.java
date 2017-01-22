@@ -81,12 +81,12 @@ public class JdbcTaskDao implements TaskDao {
     }
 
     @Override
-    public void create(Task task) {
+    public void create(Task entity) {
 
     }
 
     @Override
-    public void update(Task task) {
+    public void update(Task entity) {
 
     }
 

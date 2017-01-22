@@ -35,12 +35,12 @@ public class JdbcDeveloperHasTaskDao implements DeveloperHasTaskDao {
     }
 
     @Override
-    public void create(DeveloperHasTask developerHasTask) {
+    public void create(DeveloperHasTask entity) {
 
     }
 
     @Override
-    public void update(DeveloperHasTask developerHasTask) {
+    public void update(DeveloperHasTask entity) {
 
     }
 

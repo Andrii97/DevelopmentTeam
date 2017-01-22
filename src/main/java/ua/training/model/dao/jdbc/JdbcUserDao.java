@@ -6,14 +6,13 @@ import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by andrii on 18.01.17.
  */
-public class JdbcUserDao implements UserDao {
+public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
     private static final String DELETE_USER_BY_ID = "DELETE FROM user WHERE id = ? ";
     private static final String INSERT_INTO_USER = "INSERT INTO user " +
             "(first_name, middle_name, last_name, email, password, role)" +
@@ -30,10 +29,9 @@ public class JdbcUserDao implements UserDao {
     private static final String PASSWORD = "password";
     private static final String ROLE = "role";
     private static final String IS_ACTIVE = "is_active";
-    private Connection connection;
 
     public JdbcUserDao(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     public Connection getConnection() {
@@ -42,6 +40,53 @@ public class JdbcUserDao implements UserDao {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    @Override
+    protected String getSelectAllQuery() {
+        return SELECT_FROM_USER;
+    }
+
+    @Override
+    protected String getCreateQuery() {
+        return INSERT_INTO_USER;
+    }
+
+    @Override
+    protected String getUpdateQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getDeleteQuery() {
+        return DELETE_USER_BY_ID;
+    }
+
+    @Override
+    protected User getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        return getUserFromResultSet(resultSet);
+    }
+
+    @Override
+    protected void setIdForEntity(User entity, int id) {
+        entity.setId(id);
+    }
+
+    @Override
+    protected void prepareStatementForInsert(PreparedStatement query, User entity)
+            throws SQLException {
+        query.setString(1 , entity.getFirstName());
+        query.setString(2 , entity.getMiddleName());
+        query.setString(3 , entity.getLastName());
+        query.setString(4, entity.getEmail());
+        query.setString(5, entity.getPassword());
+        query.setString(6, entity.getRole().name());
+        // query.setBoolean(7, entity.isActive());
+    }
+
+    @Override
+    protected void prepareStatementForUpdate(PreparedStatement query, User entity) {
+        // toDo
     }
 
     @Override
@@ -56,60 +101,6 @@ public class JdbcUserDao implements UserDao {
             throw new RuntimeException(e);
         }
         return null;
-    }
-
-    @Override
-    public List<User> findAll() {
-        List<User> result = new ArrayList<>();
-        try(Statement query =
-                    connection.createStatement();
-            ResultSet resultSet = query.executeQuery(SELECT_FROM_USER)){
-            while (resultSet.next()) {
-                result.add( getUserFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
-
-    @Override
-    public void create(User user) {
-        try( PreparedStatement query =
-                     connection.prepareStatement(INSERT_INTO_USER
-                             , Statement.RETURN_GENERATED_KEYS ) ){
-            query.setString(1 , user.getFirstName());
-            query.setString(2 , user.getMiddleName());
-            query.setString(3 , user.getLastName());
-            query.setString(4, user.getEmail());
-            query.setString(5, user.getPassword());
-            query.setString(6, user.getRole().name());
-            // query.setBoolean(7, user.isActive());
-            query.executeUpdate();
-            ResultSet keys =  query.getGeneratedKeys();
-            if( keys.next()){
-                user.setId( keys.getInt(1) );
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void update(User user) {
-
-    }
-
-    @Override
-    public void delete(Integer id) {
-        try (PreparedStatement query =
-                     connection.prepareStatement(DELETE_USER_BY_ID)) {
-            query.setInt(1, id);
-            query.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

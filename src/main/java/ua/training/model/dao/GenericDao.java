@@ -8,7 +8,7 @@ import java.util.List;
 public interface GenericDao<E> {
     E find(Integer id);
     List<E> findAll();
-    void create(E e);
-    void update(E e);
+    void create(E entity);
+    void update(E entity);
     void delete(Integer id);
 }

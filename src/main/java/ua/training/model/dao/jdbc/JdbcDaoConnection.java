@@ -15,11 +15,6 @@ public class JdbcDaoConnection implements DaoConnection {
 
     public JdbcDaoConnection(Connection connection) {
         this.connection = connection;
-        try {
-            System.out.println("conn autocommit = " + connection.getAutoCommit());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

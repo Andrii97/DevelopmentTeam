@@ -10,9 +10,64 @@ import java.util.List;
  * Created by andrii on 22.01.17.
  */
 public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
-    private Connection connection;
-    abstract String getSelectAllQuery();
-    abstract E getEntityFromResultSet(ResultSet resultSet);
+    protected Connection connection;
+
+    public AbstractJdbcDao(Connection connection) {
+        this.connection = connection;
+    }
+
+    /**
+     * SELECT * FROM [Table]
+     * @return sql query to retrieve all the records from the database
+     */
+    protected abstract String getSelectAllQuery();
+
+    /**
+     * INSERT INTO [Table] ([column, column, ...]) VALUES (?, ?, ...);
+     * @return sql query to insert new records into the database
+     */
+    protected abstract String getCreateQuery();
+
+    /**
+     * UPDATE [Table] SET [column = ?, column = ?, ...] WHERE id = ?;
+     * @return sql query to update record in the database
+     */
+    protected abstract String getUpdateQuery();
+
+    /**
+     * DELETE FROM [Table] WHERE id= ?;
+     * @return sql query to delete record from the database.
+     */
+    protected abstract String getDeleteQuery();
+
+    /**
+     *
+     * @param resultSet
+     * @return entity
+     * @throws SQLException
+     */
+    protected abstract E getEntityFromResultSet(ResultSet resultSet) throws SQLException;
+
+    /**
+     *
+     * @param entity
+     * @param id
+     */
+    protected abstract void setIdForEntity(E entity, int id);
+
+    /**
+     *
+     * @param query
+     * @param entity
+     */
+    protected abstract void prepareStatementForInsert(PreparedStatement query, E entity) throws SQLException;
+
+    /**
+     *
+     * @param query
+     * @param entity
+     */
+    protected abstract void prepareStatementForUpdate(PreparedStatement query, E entity);
 
     // todo?
     @Override
@@ -36,17 +91,43 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
     }
 
     @Override
-    public void create(E e) {
-
+    public void create(E entity) {
+        try( PreparedStatement query =
+                     connection.prepareStatement(getCreateQuery(),
+                             Statement.RETURN_GENERATED_KEYS ) ){
+            prepareStatementForInsert(query, entity);
+            query.executeUpdate();
+            ResultSet keys =  query.getGeneratedKeys();
+            if( keys.next()){
+                setIdForEntity(entity, keys.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void update(E e) {
-
+    public void update(E entity) {
+        try (PreparedStatement query =
+                     connection.prepareStatement(getUpdateQuery())) {
+            prepareStatementForUpdate(query, entity);
+            int count = query.executeUpdate();
+            if (count != 1) {
+                throw new RuntimeException("On update modify more then 1 record: " + count);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void delete(Integer id) {
-
+        try (PreparedStatement query =
+                     connection.prepareStatement(getDeleteQuery())) {
+            query.setInt(1, id);
+            query.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -36,12 +36,12 @@ public class JdbcProjectDao implements ProjectDao {
     }
 
     @Override
-    public void create(Project project) {
+    public void create(Project entity) {
 
     }
 
     @Override
-    public void update(Project project) {
+    public void update(Project entity) {
 
     }
 

@@ -78,12 +78,12 @@ public class JdbcDeveloperDao implements DeveloperDao {
     }
 
     @Override
-    public void create(Developer developer) {
+    public void create(Developer entity) {
         try( PreparedStatement query =
                      connection.prepareStatement(INSERT_INTO_DEVELOPER) ){
-            query.setInt(1 , developer.getUser().getId());
-            query.setString(2 , developer.getQualification().name());
-            // query.setBoolean(3 , developer.getFree());
+            query.setInt(1 , entity.getUser().getId());
+            query.setString(2 , entity.getQualification().name());
+            // query.setBoolean(3 , entity.getFree());
 
             query.executeUpdate();
             ResultSet keys =  query.getGeneratedKeys();
@@ -93,7 +93,7 @@ public class JdbcDeveloperDao implements DeveloperDao {
     }
 
     @Override
-    public void update(Developer developer) {
+    public void update(Developer entity) {
 
     }
 

@@ -54,12 +54,12 @@ public class JdbcStatementOfWorkDao implements StatementOfWorkDao {
     }
 
     @Override
-    public void create(StatementOfWork statementOfWork) {
+    public void create(StatementOfWork entity) {
 
     }
 
     @Override
-    public void update(StatementOfWork statementOfWork) {
+    public void update(StatementOfWork entity) {
 
     }
 
