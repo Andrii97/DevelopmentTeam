@@ -7,6 +7,8 @@ import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by andrii on 18.01.17.
@@ -18,6 +20,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
             "(user_id, qualification) VALUES (?, ?)  ";
     private static final String SELECT_FROM_DEVELOPER = "SELECT * FROM developer" +
             " JOIN user ON developer.user_id = user.id ";
+    private static final String WHERE_QUALIFICATION = "WHERE developer.qualification = ? ";
 
     private static final String USER_ID = "user_id";
     private static final String QUALIFICATION = "qualification";
@@ -94,4 +97,23 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
         return null;
     }
 
+    @Override
+    public List<Developer> findByQualification(Qualification qualification) {
+        List<Developer> result = new ArrayList<>();
+        try(PreparedStatement query =
+                connection.prepareStatement(getSelectWhereQualificationQuery())) {
+            query.setString(1, qualification.name());
+            ResultSet resultSet = query.executeQuery();
+            while (resultSet.next()) {
+                result.add( getEntityFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    private String getSelectWhereQualificationQuery() {
+        return SELECT_FROM_DEVELOPER + WHERE_QUALIFICATION;
+    }
 }
