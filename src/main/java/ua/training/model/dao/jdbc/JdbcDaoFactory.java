@@ -16,19 +16,11 @@ import java.util.Properties;
  * Created by andrii on 18.01.17.
  */
 public class JdbcDaoFactory extends DaoFactory{
-//    private Connection connection;
     private static final String DB_URL = "url";
     private DataSource dataSource;
 
     public JdbcDaoFactory() {
         try{
-//            InputStream inputStream =
-//                    DaoFactory.class.getResourceAsStream(DB_FILE);
-//            Properties dbProps = new Properties();
-//            dbProps.load(inputStream);
-//            new Driver();
-//            String url = dbProps.getProperty(DB_URL);
-//            connection = DriverManager.getConnection(url , dbProps);
             InitialContext ic = new InitialContext();
             dataSource = (DataSource) ic.lookup("java:comp/env/jdbc/development_team");
 
@@ -60,34 +52,32 @@ public class JdbcDaoFactory extends DaoFactory{
         return new JdbcStatementOfWorkDao(sqlConnection);
     }
 
-//    @Override
-//    public DeveloperDao createDeveloperDao() {
-//        return new JdbcDeveloperDao(connection);
-//    }
-//
-//    @Override
-//    public DeveloperHasTaskDao createDeveloperHasTaskDao() {
-//        return new JdbcDeveloperHasTaskDao(connection);
-//    }
-//
-//    @Override
-//    public ProjectDao createProjectDao() {
-//        return new JdbcProjectDao(connection);
-//    }
-//
-//    @Override
-//    public StatementOfWorkDao createStatementOfWorkDao() {
-//        return new JdbcStatementOfWorkDao(connection);
-//    }
-//
-//    @Override
-//    public TaskDao createTaskDao() {
-//        return new JdbcTaskDao(connection);
-//    }
-//
-//    @Override
-//    public UserDao createUserDao() {
-//        return new JdbcUserDao(connection);
-//    }
+    @Override
+    public ProjectDao createProjectDao(DaoConnection daoConnection) {
+        JdbcDaoConnection jdbcConnection = (JdbcDaoConnection) daoConnection;
+        Connection sqlConnection = jdbcConnection.getConnection();
+        return new JdbcProjectDao(sqlConnection);
+    }
+
+    @Override
+    public DeveloperHasTaskDao createDeveloperHasTaskDao(DaoConnection daoConnection) {
+        JdbcDaoConnection jdbcConnection = (JdbcDaoConnection) daoConnection;
+        Connection sqlConnection = jdbcConnection.getConnection();
+        return new JdbcDeveloperHasTaskDao(sqlConnection);
+    }
+
+    @Override
+    public DeveloperDao createDeveloperDao(DaoConnection daoConnection) {
+        JdbcDaoConnection jdbcConnection = (JdbcDaoConnection) daoConnection;
+        Connection sqlConnection = jdbcConnection.getConnection();
+        return new JdbcDeveloperDao(sqlConnection);
+    }
+
+    @Override
+    public TaskDao createTaskDao(DaoConnection daoConnection) {
+        JdbcDaoConnection jdbcConnection = (JdbcDaoConnection) daoConnection;
+        Connection sqlConnection = jdbcConnection.getConnection();
+        return new JdbcTaskDao(sqlConnection);
+    }
 
 }

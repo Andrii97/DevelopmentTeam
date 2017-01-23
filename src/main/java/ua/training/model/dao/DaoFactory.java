@@ -13,18 +13,15 @@ public abstract class DaoFactory {
 
     public abstract UserDao createUserDao(DaoConnection daoConnection);
     public abstract StatementOfWorkDao createStatementOfWorkDao(DaoConnection daoConnection);
-
-//    public abstract DeveloperDao createDeveloperDao();
-//    public abstract DeveloperHasTaskDao createDeveloperHasTaskDao();
-//    public abstract ProjectDao createProjectDao();
-//    public abstract StatementOfWorkDao createStatementOfWorkDao();
-//    public abstract TaskDao createTaskDao();
-//    public abstract UserDao createUserDao();
+    public abstract ProjectDao createProjectDao(DaoConnection daoConnection);
+    public abstract DeveloperHasTaskDao createDeveloperHasTaskDao(DaoConnection daoConnection);
+    public abstract DeveloperDao createDeveloperDao(DaoConnection daoConnection);
+    public abstract TaskDao createTaskDao(DaoConnection daoConnection);
 
     public static final String DB_FILE = "/db.properties";
     private static final String DB_FACTORY_CLASS = "factory.class";
     private static  DaoFactory instance;
-    // todo: Holder
+
     public static DaoFactory getInstance(){
         if( instance == null) {
             try {

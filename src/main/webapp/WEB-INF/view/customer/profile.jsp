@@ -49,5 +49,9 @@
         <input type="text" name="name"/><br/>
         <input type="submit">
     </form>
+    <hr/>
+    <form method="get" action="/rest${UrlHolder.STATEMENTS_OF_WORK}" >
+        <input type="submit">
+    </form>
 </body>
 </html>

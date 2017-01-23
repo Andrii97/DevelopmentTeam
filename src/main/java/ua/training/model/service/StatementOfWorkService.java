@@ -5,6 +5,8 @@ import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.StatementOfWorkDao;
 import ua.training.model.entity.StatementOfWork;
 
+import java.util.List;
+
 /**
  * Created by andrii on 22.01.17.
  */
@@ -24,6 +26,13 @@ public class StatementOfWorkService {
             StatementOfWorkDao dao = daoFactory.createStatementOfWorkDao(connection);
             dao.create(statementOfWork);
             // todo add task
+        }
+    }
+
+    public List<StatementOfWork> getAll() {
+        try( DaoConnection connection = daoFactory.getConnection() ){
+            StatementOfWorkDao dao = daoFactory.createStatementOfWorkDao(connection);
+            return dao.findAll();
         }
     }
 }

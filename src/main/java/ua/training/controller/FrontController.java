@@ -5,6 +5,7 @@ import ua.training.controller.command.Login;
 import ua.training.controller.command.Logout;
 import ua.training.controller.command.customer.CreateStatementOfWork;
 import ua.training.controller.command.customer.GetStatementOfWork;
+import ua.training.controller.command.customer.GetStatementsOfWork;
 import ua.training.utils.constants.PagesHolder;
 import ua.training.utils.constants.UrlHolder;
 
@@ -31,6 +32,7 @@ public class FrontController extends HttpServlet {
         commands.put("GET:/logout",  new Logout());
         commands.put("POST:/createSOW", new CreateStatementOfWork());
         commands.put("GET:" + UrlHolder.STATEMENT_OF_WORK, new GetStatementOfWork());
+        commands.put("GET:" + UrlHolder.STATEMENTS_OF_WORK, new GetStatementsOfWork());
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

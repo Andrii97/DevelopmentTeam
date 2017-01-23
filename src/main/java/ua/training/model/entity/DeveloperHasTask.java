@@ -4,33 +4,33 @@ package ua.training.model.entity;
  * Created by andrii on 18.01.17.
  */
 public class DeveloperHasTask {
-    Developer developer;
-    Task task;
-    Project project;
+    Integer developerId;
+    Integer taskId;
+    Integer projectId;
     Integer elapsedTime;
 
-    public Developer getDeveloper() {
-        return developer;
+    public Integer getDeveloperId() {
+        return developerId;
     }
 
-    public void setDeveloper(Developer developer) {
-        this.developer = developer;
+    public void setDeveloperId(Integer developerId) {
+        this.developerId = developerId;
     }
 
-    public Task getTask() {
-        return task;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
-    public Project getProject() {
-        return project;
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     public Integer getElapsedTime() {
@@ -44,18 +44,18 @@ public class DeveloperHasTask {
     public static class Builder {
         DeveloperHasTask instance = new DeveloperHasTask();
 
-        public Builder setDeveloper(Developer developer) {
-            instance.developer = developer;
+        public Builder setDeveloperId(Integer developerId) {
+            instance.developerId = developerId;
             return this;
         }
 
-        public Builder setTask(Task task) {
-            instance.task = task;
+        public Builder setTaskId(Integer taskId) {
+            instance.taskId = taskId;
             return this;
         }
 
-        public Builder setProject(Project project) {
-            instance.project = project;
+        public Builder setProjectId(Integer projectId) {
+            instance.projectId = projectId;
             return this;
         }
 

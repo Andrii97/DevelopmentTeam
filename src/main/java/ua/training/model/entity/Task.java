@@ -9,7 +9,7 @@ public class Task {
     private Integer id;
     private String name;
     private String description;
-    private StatementOfWork statementOfWork;
+    private Integer statementOfWorkId;
     private HashMap<Qualification, Integer> taskRequirements; // qualification / developersNumber
     private Boolean isFinished;
 
@@ -37,12 +37,12 @@ public class Task {
         this.description = description;
     }
 
-    public StatementOfWork getStatementOfWork() {
-        return statementOfWork;
+    public Integer getStatementOfWorkId() {
+        return statementOfWorkId;
     }
 
-    public void setStatementOfWork(StatementOfWork statementOfWork) {
-        this.statementOfWork = statementOfWork;
+    public void setStatementOfWorkId(Integer statementOfWorkId) {
+        this.statementOfWorkId = statementOfWorkId;
     }
 
     public Boolean getFinished() {
@@ -78,8 +78,8 @@ public class Task {
             return this;
         }
 
-        public Builder setStatementOfWork(StatementOfWork statementOfWork) {
-            instance.statementOfWork = statementOfWork;
+        public Builder setStatementOfWorkId(Integer statementOfWorkId) {
+            instance.statementOfWorkId = statementOfWorkId;
             return this;
         }
 

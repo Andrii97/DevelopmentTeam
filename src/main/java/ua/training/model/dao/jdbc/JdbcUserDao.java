@@ -64,7 +64,16 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     protected User getEntityFromResultSet(ResultSet resultSet) throws SQLException {
-        return getUserFromResultSet(resultSet);
+        return new User.Builder()
+                .setId(resultSet.getInt(ID))
+                .setFirstName(resultSet.getString(FIRST_NAME))
+                .setMiddleName(resultSet.getString(MIDDLE_NAME))
+                .setLastName(resultSet.getString(LAST_NAME))
+                .setEmail(resultSet.getString(EMAIL))
+                .setPassword(resultSet.getString(PASSWORD))
+                .setActive(resultSet.getBoolean(IS_ACTIVE))
+                .setRole(Role.valueOf(resultSet.getString(ROLE)))
+                .build();
     }
 
     @Override
@@ -114,19 +123,6 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
         return null;
     }
 
-    private User getUserFromResultSet(ResultSet rs) throws SQLException {
-        return new User.Builder()
-                .setId(rs.getInt(ID))
-                .setFirstName(rs.getString(FIRST_NAME))
-                .setMiddleName(rs.getString(MIDDLE_NAME))
-                .setLastName(rs.getString(LAST_NAME))
-                .setEmail(rs.getString(EMAIL))
-                .setPassword(rs.getString(PASSWORD))
-                .setActive(rs.getBoolean(IS_ACTIVE))
-                .setRole(Role.valueOf(rs.getString(ROLE)))
-                .build();
-    }
-
     public Optional<User> findByEmail(String email) {
         Optional<User> result = Optional.empty();
 
@@ -135,7 +131,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
             query.setString( 1, email.toLowerCase());
             ResultSet rs = query.executeQuery();
             if(rs.next()) {
-                User user = getUserFromResultSet(rs);
+                User user = getEntityFromResultSet(rs);
                 result = Optional.of(user);
             }
         } catch (SQLException e) {

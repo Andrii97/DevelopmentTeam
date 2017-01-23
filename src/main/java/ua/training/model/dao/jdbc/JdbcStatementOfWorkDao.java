@@ -2,9 +2,9 @@ package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.StatementOfWorkDao;
 import ua.training.model.entity.StatementOfWork;
+import ua.training.utils.date.ConvertDate;
 
 import java.sql.*;
-import java.time.LocalDate;
 
 /**
  * Created by andrii on 20.01.17.
@@ -55,14 +55,10 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
         return new StatementOfWork.Builder()
                 .setId(resultSet.getInt(ID))
                 .setName(resultSet.getString(NAME))
-                .setFilingDate(convertDateToLocalDate(resultSet.getDate(FILLING_DATE)))
+                .setFilingDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(FILLING_DATE)))
                 .setCustomerId(resultSet.getInt(CUSTOMER_ID))
                 .setApproved(resultSet.getBoolean(IS_APPROVED))
                 .build();
-    }
-
-    private LocalDate convertDateToLocalDate(Date date) {
-        return date != null ? date.toLocalDate() : null;
     }
 
     @Override
@@ -74,13 +70,9 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
     protected void prepareStatementForInsert(PreparedStatement query, StatementOfWork entity)
             throws SQLException {
         query.setString(1 , entity.getName());
-        query.setDate(2 , convertLocalDateToDate(entity.getFilingDate()));
+        query.setDate(2 , ConvertDate.convertLocalDateToDate(entity.getFilingDate()));
         query.setInt(3 , entity.getCustomerId());
 //        query.setBoolean(4, entity.getApproved());
-    }
-
-    private Date convertLocalDateToDate(LocalDate localDate) {
-        return localDate != null ? Date.valueOf(localDate) : null;
     }
 
     @Override

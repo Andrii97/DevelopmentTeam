@@ -8,10 +8,10 @@ import java.time.LocalDate;
 public class Project {
     private Integer id;
     private String name;
-    private StatementOfWork statementOfWork;
+    private Integer statementOfWorkId;
     private LocalDate startDate;
     private LocalDate endDate;
-    private User manager;
+    private Integer managerId;
     private Integer bill;
 
     public Integer getId() {
@@ -30,12 +30,12 @@ public class Project {
         this.name = name;
     }
 
-    public StatementOfWork getStatementOfWork() {
-        return statementOfWork;
+    public Integer getStatementOfWorkId() {
+        return statementOfWorkId;
     }
 
-    public void setStatementOfWork(StatementOfWork statementOfWork) {
-        this.statementOfWork = statementOfWork;
+    public void setStatementOfWorkId(Integer statementOfWorkId) {
+        this.statementOfWorkId = statementOfWorkId;
     }
 
     public LocalDate getStartDate() {
@@ -54,12 +54,12 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public User getManager() {
-        return manager;
+    public Integer getManagerId() {
+        return managerId;
     }
 
-    public void setManager(User manager) {
-        this.manager = manager;
+    public void setManagerId(Integer managerId) {
+        this.managerId = managerId;
     }
 
     public Integer getBill() {
@@ -83,8 +83,8 @@ public class Project {
             return this;
         }
 
-        public Builder setStatementOfWork(StatementOfWork statementOfWork) {
-            instance.statementOfWork = statementOfWork;
+        public Builder setStatementOfWorkId(Integer statementOfWorkId) {
+            instance.statementOfWorkId = statementOfWorkId;
             return this;
         }
 
@@ -98,8 +98,8 @@ public class Project {
             return this;
         }
 
-        public Builder setManager(User manager) {
-            instance.manager = manager;
+        public Builder setManagerId(Integer managerId) {
+            instance.managerId = managerId;
             return this;
         }
 
