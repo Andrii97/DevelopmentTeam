@@ -5,7 +5,6 @@ import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
-import ua.training.utils.constants.UrlHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +34,7 @@ public class Login implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pageToGo = UrlHolder.LOGIN_PAGE;
+        String pageToGo = PagesHolder.LOGIN_PAGE;
         String email = request.getParameter(PARAM_LOGIN);
         String password = request.getParameter(PARAM_PASSWORD);
         if( email != null && password != null ){

@@ -11,7 +11,7 @@ public class StatementOfWork {
     private String name;
     private LocalDate filingDate;
     private List<Task> tasks;
-    private User customer;
+    private Integer customerId;
     private Boolean isApproved;
 
     public Integer getId() {
@@ -46,12 +46,12 @@ public class StatementOfWork {
         this.tasks = tasks;
     }
 
-    public User getCustomer() {
-        return customer;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(User customer) {
-        this.customer = customer;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public Boolean getApproved() {
@@ -85,8 +85,8 @@ public class StatementOfWork {
             return this;
         }
 
-        public Builder setCustomer(User customer) {
-            instance.customer = customer;
+        public Builder setCustomerId(Integer customerId) {
+            instance.customerId = customerId;
             return this;
         }
 

@@ -5,5 +5,5 @@ package ua.training.utils.constants;
  */
 public class AttributesHolder {
     public static final String USER = "user";
-
+    public static final String STATEMENT_OF_WORK = "statementOfWork";
 }

@@ -53,6 +53,13 @@ public class JdbcDaoFactory extends DaoFactory{
         return new JdbcUserDao(sqlConnection);
     }
 
+    @Override
+    public StatementOfWorkDao createStatementOfWorkDao(DaoConnection daoConnection) {
+        JdbcDaoConnection jdbcConnection = (JdbcDaoConnection) daoConnection;
+        Connection sqlConnection = jdbcConnection.getConnection();
+        return new JdbcStatementOfWorkDao(sqlConnection);
+    }
+
 //    @Override
 //    public DeveloperDao createDeveloperDao() {
 //        return new JdbcDeveloperDao(connection);

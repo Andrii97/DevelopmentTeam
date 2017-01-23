@@ -91,6 +91,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     public User find(Integer id) {
+        // todo
         try(Statement query =
                     connection.createStatement();
             ResultSet resultSet = query.executeQuery(SELECT_FROM_USER)){
