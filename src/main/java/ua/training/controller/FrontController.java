@@ -1,5 +1,6 @@
 package ua.training.controller;
 
+import org.apache.log4j.Logger;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.Login;
 import ua.training.controller.command.Logout;
@@ -25,6 +26,7 @@ public class FrontController extends HttpServlet {
 
     private Map<String , Command> commands = new HashMap<>();
 
+    private static final Logger logger = Logger.getLogger(FrontController.class);
 
     @Override
     public void init(){
@@ -38,12 +40,14 @@ public class FrontController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = processRequest(request, response);
+        logger.info("GOTO redirect" + path);
         response.sendRedirect(path);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = processRequest(request, response);
+        logger.info("GOTO forward " + path);
         request.getRequestDispatcher(path).forward(request, response);
     }
 
