@@ -5,8 +5,11 @@ import ua.training.controller.command.Command;
 import ua.training.controller.command.Login;
 import ua.training.controller.command.Logout;
 import ua.training.controller.command.customer.CreateStatementOfWork;
+import ua.training.controller.command.customer.GetCustomerHomePage;
 import ua.training.controller.command.customer.GetStatementOfWork;
 import ua.training.controller.command.customer.GetStatementsOfWork;
+import ua.training.controller.command.developer.GetDeveloperHomePage;
+import ua.training.controller.command.manager.GetManagerHomePage;
 import ua.training.utils.constants.PagesHolder;
 import ua.training.utils.constants.UrlHolder;
 
@@ -30,11 +33,20 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init(){
-        commands.put("GET:/login",  new Login());
-        commands.put("GET:/logout",  new Logout());
+        commands.put("POST:/login",  new Login());
+
+        commands.put("GET:" + UrlHolder.CUSTOMER_PREFIX, new GetCustomerHomePage());
+        commands.put("GET:" + UrlHolder.MANAGER_PREFIX, new GetManagerHomePage());
+        commands.put("GET:" + UrlHolder.DEVELOPER_PREFIX, new GetDeveloperHomePage());
+
+        commands.put("POST:" + UrlHolder.LOGOUT_PREFIX,  new Logout());
+
+        commands.put("GET:" + UrlHolder.M_STATEMENTS_OF_WORK, new GetStatementsOfWork());
+
         commands.put("POST:/createSOW", new CreateStatementOfWork());
         commands.put("GET:" + UrlHolder.STATEMENT_OF_WORK, new GetStatementOfWork());
         commands.put("GET:" + UrlHolder.STATEMENTS_OF_WORK, new GetStatementsOfWork());
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -55,7 +67,7 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         String method = request.getMethod().toUpperCase();
         String path = request.getRequestURI();
-        path = path.replaceAll(".*/rest", "");
+        path = path.replaceAll(UrlHolder.BASIC, ""); // ".*/rest"
         String key = method+":"+path;
         Command command = commands.getOrDefault(key, (req , resp)-> PagesHolder.LOGIN_PAGE);
         return command.execute(request, response);

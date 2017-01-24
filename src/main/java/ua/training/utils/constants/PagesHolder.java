@@ -14,8 +14,15 @@ public class PagesHolder {
             "/statementOfWork.jsp";
     public static final String STATEMENTS_OF_WORK_PAGE = PREFIX + UrlHolder.CUSTOMER_PREFIX +
             "/statementsOfWork.jsp";
+    public static final String M_STATEMENTS_OF_WORK_PAGE = PREFIX + UrlHolder.MANAGER_PREFIX +
+            "/statementsOfWork.jsp";
     public static final String ADD_STATEMENT_OF_WORK_PAGE = PREFIX + UrlHolder.CUSTOMER_PREFIX +
             "/addStatementsOfWork.jsp";
+
+    public static final String USERS = "users.jsp";
+    public static final String USERS_PAGE = PREFIX + UrlHolder.MANAGER_PREFIX + USERS;
+    public static final String PROJECTS = "projects.jsp";
+    public static final String PROJECTS_PAGE = PREFIX + UrlHolder.MANAGER_PREFIX + PROJECTS;
 
     // manager's pages
     public static final String MANAGER_HOME_PAGE = PREFIX + UrlHolder.MANAGER_PREFIX + PROFILE;

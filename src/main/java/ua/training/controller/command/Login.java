@@ -1,16 +1,21 @@
 package ua.training.controller.command;
 
+import ua.training.model.entity.Developer;
+import ua.training.model.entity.Qualification;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
+import ua.training.model.service.DeveloperService;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
+import ua.training.utils.constants.UrlHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,10 +30,12 @@ public class Login implements Command {
 
     private UserService userService = UserService.getInstance();
 
+    private DeveloperService developerService = DeveloperService.getInstance();
+
     private Map<Role, String> afterLoginPathToGoByRole = new HashMap<Role, String>() {{
-        put(Role.CUSTOMER, PagesHolder.CUSTOMER_HOME_PAGE);
-        put(Role.MANAGER, PagesHolder.MANAGER_HOME_PAGE);
-        put(Role.DEVELOPER, PagesHolder.DEVELOPER_HOME_PAGE);
+        put(Role.CUSTOMER, UrlHolder.CUSTOMER_URL);// PagesHolder.CUSTOMER_HOME_PAGE);
+        put(Role.MANAGER, UrlHolder.MANAGER_URL);// PagesHolder.MANAGER_HOME_PAGE);
+        put(Role.DEVELOPER, UrlHolder.DEVELOPER_URL); // PagesHolder.DEVELOPER_HOME_PAGE);
     }};
 
     @Override

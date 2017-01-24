@@ -7,16 +7,8 @@
     <title>Registered user</title>
 </head>
 <body>
-    Путь к контексту : ${ pageContext.request.contextPath } <br/>
-    Имя хоста : ${ header["host"] }<br/>
-    Тип и кодировка контента : ${pageContext.response.contentType}<br/>
-    Кодировка ответа : ${pageContext.response.characterEncoding}<br/>
-    ID сессии : ${pageContext.request.session.id}<br/>
-    Время создания сессии в мсек : ${pageContext.request.session.creationTime}<br/>
-    Время последнего доступа к сессии : ${pageContext.request.session.lastAccessedTime}<br/>
-    Имя сервлета : ${pageContext.servletConfig.servletName}
+<jsp:include page="../headerForAuthorizedUser.jsp"/>
     <br/>
-    <!--%! User user =  %-->
     <%--<c:out value="${sessionScope[AttributesHolder.User]}"/>--%>
     AttributesHolder.USER
     <c:out value="${user}"/><br/>
@@ -52,6 +44,9 @@
     <hr/>
     <form method="get" action="/rest${UrlHolder.STATEMENTS_OF_WORK}" >
         <input type="submit">
+    </form>
+    <form method="post" action="${UrlHolder.LOGOUT}" >
+        <input type="submit" value="Logout">
     </form>
 </body>
 </html>

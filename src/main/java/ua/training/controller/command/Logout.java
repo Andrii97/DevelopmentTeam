@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.utils.constants.PagesHolder;
+import ua.training.utils.constants.UrlHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,6 @@ public class Logout implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getSession().invalidate();
-        return PagesHolder.LOGIN_PAGE;
+        return UrlHolder.LOGIN;
     }
 }
