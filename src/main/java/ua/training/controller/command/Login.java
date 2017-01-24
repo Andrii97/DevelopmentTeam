@@ -1,7 +1,7 @@
 package ua.training.controller.command;
 
-import ua.training.model.entity.Developer;
-import ua.training.model.entity.Qualification;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.model.service.DeveloperService;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +45,7 @@ public class Login implements Command {
         String password = request.getParameter(PARAM_PASSWORD);
         if( email != null && password != null ){
             Optional<User> user;
+            password = encrypt(password);
             user = userService.login(email, password);
             user.ifPresent(person -> request
                     .getSession()
@@ -54,5 +54,9 @@ public class Login implements Command {
             pageToGo = afterLoginPathToGoByRole.get(role);
         }
         return pageToGo;
+    }
+
+    public String encrypt(String st) {
+        return DigestUtils.md5Hex(st);
     }
 }
