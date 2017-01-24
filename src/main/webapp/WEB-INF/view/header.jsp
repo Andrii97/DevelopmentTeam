@@ -12,7 +12,7 @@
     <c:forEach items="${SupportedLocaleHolder.values()}" var="locale">
         <c:if test="${locale.locale == sessionScope[AttributesHolder.LOCALE]}"><b>[</c:if>
         <a href="?${AttributesHolder.USER_LOCALE}=${locale.param}">
-            <img src="./img/${locale.image}"  height="20" width="20">
+            <img src="/img/${locale.image}"  height="20" width="20">
             <%--${locale}--%>
         </a>
         <c:if test="${locale.locale == sessionScope[AttributesHolder.LOCALE]}">]</b></c:if>

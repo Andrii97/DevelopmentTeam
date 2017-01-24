@@ -7,9 +7,9 @@ import java.util.Locale;
  * Created by andrii on 23.01.17.
  */
 public enum SupportedLocaleHolder {
-    RU(new Locale("ru", "RU"), "ru", "ru_flag.jpg"),
     UA(new Locale("uk", "UA"), "ua", "ua_flag.jpg"),
-    EN(new Locale("en", "EN"), "en", "en_flag.jpg");
+    EN(new Locale("en", "EN"), "en", "en_flag.jpg"),
+    RU(new Locale("ru", "RU"), "ru", "ru_flag.jpg");
 
     private static final SupportedLocaleHolder DEFAULT_LOCALE = EN;
     private final Locale locale;

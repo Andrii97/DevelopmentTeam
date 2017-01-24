@@ -2,6 +2,7 @@ package ua.training.controller;
 
 import org.apache.log4j.Logger;
 import ua.training.controller.command.Command;
+import ua.training.controller.command.GetLoginPage;
 import ua.training.controller.command.Login;
 import ua.training.controller.command.Logout;
 import ua.training.controller.command.customer.CreateStatementOfWork;
@@ -27,12 +28,15 @@ import java.util.Map;
 public class FrontController extends HttpServlet {
 //    private static final long serialVersionUID = 1L;
 
+    public static final String REDIRECT = "redirect";
+
     private Map<String , Command> commands = new HashMap<>();
 
     private static final Logger logger = Logger.getLogger(FrontController.class);
 
     @Override
     public void init(){
+        commands.put("GET:/login", new GetLoginPage());
         commands.put("POST:/login",  new Login());
 
         commands.put("GET:" + UrlHolder.CUSTOMER_PREFIX, new GetCustomerHomePage());
@@ -59,8 +63,10 @@ public class FrontController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = processRequest(request, response);
-        logger.info("GOTO forward " + path);
-        request.getRequestDispatcher(path).forward(request, response);
+        if(!path.equals(REDIRECT)) {
+            logger.info("GOTO forward " + path);
+            request.getRequestDispatcher(path).forward(request, response);
+        }
     }
 
     String processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -68,8 +74,8 @@ public class FrontController extends HttpServlet {
         String method = request.getMethod().toUpperCase();
         String path = request.getRequestURI();
         path = path.replaceAll(UrlHolder.BASIC, ""); // ".*/rest"
-        String key = method+":"+path;
-        Command command = commands.getOrDefault(key, (req , resp)-> PagesHolder.LOGIN_PAGE);
+        String key = method + ":" + path;
+        Command command = commands.getOrDefault(key, (req , resp)-> PagesHolder.LOGIN_PAGE); // "error.jsp");//
         return command.execute(request, response);
     }
 }

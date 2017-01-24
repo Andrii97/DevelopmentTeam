@@ -1,4 +1,4 @@
-package ua.training.controller;
+package ua.training.controller.filter;
 
 import org.apache.log4j.Logger;
 import ua.training.controller.i18n.SupportedLocaleHolder;
