@@ -29,7 +29,7 @@ public class GetStatementsOfWork implements Command {
 
         request.setAttribute(AttributesHolder.STATEMENTS_OF_WORK, statementsOfWork);
 //        response.sendRedirect(UrlHolder.BASIC + UrlHolder.STATEMENTS_OF_WORK);
-        String pageToGo = PagesHolder.M_STATEMENTS_OF_WORK_PAGE;
+        String pageToGo = PagesHolder.STATEMENTS_OF_WORK_PAGE;
 
         return pageToGo;
     }

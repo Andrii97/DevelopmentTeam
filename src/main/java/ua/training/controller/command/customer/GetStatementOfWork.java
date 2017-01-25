@@ -2,6 +2,7 @@ package ua.training.controller.command.customer;
 
 import ua.training.controller.command.Command;
 import ua.training.model.entity.StatementOfWork;
+import ua.training.model.service.StatementOfWorkService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
 
@@ -9,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 import static ua.training.controller.command.customer.CreateStatementOfWork.PARAM_NAME;
 
@@ -16,30 +18,19 @@ import static ua.training.controller.command.customer.CreateStatementOfWork.PARA
  * Created by andrii on 23.01.17.
  */
 public class GetStatementOfWork implements Command {
+    private StatementOfWorkService statementOfWorkService
+            = StatementOfWorkService.getInstance();
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pageToGo = PagesHolder.CUSTOMER_HOME_PAGE;
+        String path = request.getRequestURI();
+        int statementOfWorkId = Integer.parseInt(path.replaceAll("\\D+", ""));
 
-        String name = request.getParameter(PARAM_NAME);
+        Optional<StatementOfWork> statementOfWork = statementOfWorkService
+                .getById(statementOfWorkId);
+        statementOfWork.ifPresent((sow) -> request.setAttribute(AttributesHolder.STATEMENT_OF_WORK, sow));
 
-        StatementOfWork statementOfWork = (StatementOfWork) request
-                .getAttribute(AttributesHolder.STATEMENT_OF_WORK);
-        if(statementOfWork == null) {
-            System.out.println("ERROR");
-            statementOfWork = (StatementOfWork) request
-                    .getSession()
-                    .getAttribute(AttributesHolder.STATEMENT_OF_WORK);
-        }
-
-        if(statementOfWork == null) {
-            System.out.println("ERROR 2");
-        }
-
-        if(statementOfWork != null){
-            pageToGo = PagesHolder.STATEMENT_OF_WORK_PAGE;
-        }
-
-        return pageToGo;
+        return PagesHolder.STATEMENT_OF_WORK_PAGE;
     }
 }
