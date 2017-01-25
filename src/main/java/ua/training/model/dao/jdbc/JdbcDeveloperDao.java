@@ -9,6 +9,7 @@ import ua.training.model.entity.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by andrii on 18.01.17.
@@ -21,6 +22,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
     private static final String SELECT_FROM_DEVELOPER = "SELECT * FROM developer" +
             " JOIN user ON developer.user_id = user.id ";
     private static final String WHERE_QUALIFICATION = "WHERE developer.qualification = ? ";
+    private static final String WHERE_ID = "WHERE developer.user_id = ? ";
 
     private static final String USER_ID = "user_id";
     private static final String QUALIFICATION = "qualification";
@@ -93,8 +95,8 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
     }
 
     @Override
-    public Developer find(Integer id) {
-        return null;
+    protected String getSelectByIdQuery() {
+        return SELECT_FROM_DEVELOPER + WHERE_ID;
     }
 
     @Override

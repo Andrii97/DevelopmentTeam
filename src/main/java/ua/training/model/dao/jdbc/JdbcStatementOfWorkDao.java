@@ -2,9 +2,13 @@ package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.StatementOfWorkDao;
 import ua.training.model.entity.StatementOfWork;
+import ua.training.model.entity.User;
 import ua.training.utils.date.ConvertDate;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by andrii on 20.01.17.
@@ -18,6 +22,11 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
             " VALUES ( ?, ?, ? ) "; // insert task? is_approved?
     private static final String SELECT_FROM_STATEMENT_OF_WORK =
             "SELECT * FROM statement_of_work ";
+    private static final String UPDATE_STATEMENT_OF_WORK_BY_ID =
+            "UPDATE statement_of_work SET name = ?,  filing_date = ?, " +
+                    "is_approved = ? WHERE id = ? ";
+    private static final String WHERE_ID = "WHERE id = ? ";
+    private static final String WHERE_CUSTOMER_ID = "WHERE customer_id = ? ";
 
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -42,7 +51,7 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
 
     @Override
     protected String getUpdateQuery() {
-        throw new UnsupportedOperationException();
+        return UPDATE_STATEMENT_OF_WORK_BY_ID;
     }
 
     @Override
@@ -76,21 +85,33 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
     }
 
     @Override
-    protected void prepareStatementForUpdate(PreparedStatement query, StatementOfWork entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    protected void prepareStatementForUpdate(PreparedStatement query, StatementOfWork entity)
+            throws SQLException {
+        query.setString(1, entity.getName());
+        query.setDate(2, ConvertDate.convertLocalDateToDate(entity.getFilingDate()));
+        query.setBoolean(3, entity.getApproved());
+        query.setInt(4, entity.getId());
     }
 
     @Override
-    public StatementOfWork find(Integer id) {
-        return null;
+    protected String getSelectByIdQuery() {
+        return SELECT_FROM_STATEMENT_OF_WORK + WHERE_ID;
     }
 
+    @Override
+    public List<StatementOfWork> findByCustomer(User customer) {
+        List<StatementOfWork> result = new ArrayList<>();
+        try(PreparedStatement query =
+                    connection.prepareStatement(SELECT_FROM_STATEMENT_OF_WORK
+                            + WHERE_CUSTOMER_ID)){
+            query.setInt( 1 , customer.getId());
+            ResultSet resultSet = query.executeQuery();
+            while (resultSet.next()) {
+                result.add( getEntityFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.Locale" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 
@@ -11,15 +10,17 @@
 </head>
 
 <body>
-<fmt:requestEncoding value="UTF-8" />
-<fmt:setLocale value="${sessionScope[AttributesHolder.LOCALE]}" />
-<fmt:setBundle basename="user" var="msg"/>
-
-<div class="container">
-    <div class="center jumbotron authorization-section">
-        OOPS! Something went wrong.
+    <%@include file="../header.jsp"%>
+    
+    <div class="col-sm-9 section">
+        <h2><small><fmt:message key="system.error"/></small></h2>
+        <hr>
+        <div class="center jumbotron authorization-section">
+            <div class="center">
+                <h2><small><fmt:message key="system.page.not.found"/></small></h2>
+            </div>
+        </div>
     </div>
-</div>
 
 </body>
 </html>

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by andrii on 20.01.17.
@@ -78,17 +79,14 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
         throw new UnsupportedOperationException();
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    @Override
+    public Optional<DeveloperHasTask> find(Integer id) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public DeveloperHasTask find(Integer id) {
-        return null;
+    protected String getSelectByIdQuery() {
+        throw new UnsupportedOperationException();
     }
 
 }

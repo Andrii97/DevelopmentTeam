@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * Created by andrii on 20.01.17.
@@ -19,14 +20,15 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
             "project (name, statement_of_work_id, start_date, end_date, manager_id, bill)" +
             " VALUES ( ?, ?, ?, ?, ?, ? ) ";
     private static final String SELECT_FROM_PROJECT = "SELECT * FROM project ";
+    private static final String WHERE_ID = "WHERE id = ? ";
 
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String STATEMENT_OF_WORK_ID = "statement_of_work_id";
-    public static final String START_DATE = "start_date";
-    public static final String END_DATE = "end_date";
-    public static final String MANAGER_ID = "manager_id";
-    public static final String BILL = "bill";
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String STATEMENT_OF_WORK_ID = "statement_of_work_id";
+    private static final String START_DATE = "start_date";
+    private static final String END_DATE = "end_date";
+    private static final String MANAGER_ID = "manager_id";
+    private static final String BILL = "bill";
 
     public JdbcProjectDao(Connection connection) {
         super(connection);
@@ -86,17 +88,9 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
         throw new UnsupportedOperationException();
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
     @Override
-    public Project find(Integer id) {
-        return null;
+    protected String getSelectByIdQuery() {
+        return SELECT_FROM_PROJECT + WHERE_ID;
     }
 
 }

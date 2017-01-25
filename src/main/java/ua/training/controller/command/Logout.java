@@ -1,5 +1,6 @@
 package ua.training.controller.command;
 
+import ua.training.controller.FrontController;
 import ua.training.utils.constants.PagesHolder;
 import ua.training.utils.constants.UrlHolder;
 
@@ -16,6 +17,7 @@ public class Logout implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getSession().invalidate();
-        return UrlHolder.LOGIN;
+        response.sendRedirect(UrlHolder.LOGIN);
+        return FrontController.REDIRECT;
     }
 }

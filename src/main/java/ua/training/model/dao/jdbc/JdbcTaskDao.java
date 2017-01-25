@@ -6,6 +6,7 @@ import ua.training.model.entity.Task;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by andrii on 20.01.17.
@@ -18,6 +19,8 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
             " VALUES ( ?, ?, ? ) ";
     private static final String SELECT_FROM_TASK = "SELECT * FROM task " +
             "JOIN task_requirements ON task.id = task_requirements.task_id ";
+    private static final String WHERE_ID = "WHERE id = ? ";
+
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
@@ -83,17 +86,9 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
     @Override
-    public Task find(Integer id) {
-        return null;
+    protected String getSelectByIdQuery() {
+        return SELECT_FROM_TASK + WHERE_ID;
     }
 
     @Override

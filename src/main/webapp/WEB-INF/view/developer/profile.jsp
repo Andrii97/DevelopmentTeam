@@ -7,7 +7,6 @@
     <title>Registered user</title>
 </head>
 <body>
-<jsp:include page="../headerForAuthorizedUser.jsp"/>
 <br/>
 <c:out value="${user}"/><br/>
 <div>

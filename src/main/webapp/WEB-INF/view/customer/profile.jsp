@@ -4,49 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Registered user</title>
+    <title></title>
 </head>
 <body>
-<jsp:include page="../headerForAuthorizedUser.jsp"/>
-    <br/>
-    <%--<c:out value="${sessionScope[AttributesHolder.User]}"/>--%>
-    AttributesHolder.USER
-    <c:out value="${user}"/><br/>
-    <div>
-        <c:out value="${user.firstName}"/>
-        <c:out value="${user.middleName}"/>
-        <c:out value="${user.lastName}"/>
-        <br/>
-    </div>
-    <div>
-        <c:out value="${user.email}"/>
-        <br/>
-    </div>
-    <div>
-        <c:out value="${user.role.name()}"/>
-        <c:out value="${user.active}"/>
-        <br/>
-    </div>
-    <%--<a href="${pageContext.request.contextPath}${PagesPaths.HOME_PATH}">--%>
-        <%--<fmt:message key="home.page.href.name"/>--%>
-    <%--</a>--%>
-    <c:out value="${pageContext.request.contextPath}${PagesPaths.HOME_PAGE}"/>
-    <br/>
-    <c:out value="${pageContext.request.contextPath}${PagesPaths.HOME_PAGE}"/>
-    <br/>
-
-    <link>
-    <c:out value="Create new StatementOfWork"/>
-    <form method="post" action="/rest${UrlHolder.ADD_STATEMENT_OF_WORK}" >
-        <input type="text" name="name"/><br/>
-        <input type="submit">
-    </form>
-    <hr/>
-    <form method="get" action="/rest${UrlHolder.STATEMENTS_OF_WORK}" >
-        <input type="submit">
-    </form>
-    <form method="post" action="${UrlHolder.LOGOUT}" >
-        <input type="submit" value="Logout">
-    </form>
+    <%@include file="menu.jsp"%>
+    <%@include file="../basicProfile.jsp"%>
 </body>
 </html>

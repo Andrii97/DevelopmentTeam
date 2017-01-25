@@ -1,5 +1,6 @@
 package ua.training.controller.command.customer;
 
+import org.apache.log4j.Logger;
 import ua.training.controller.command.Command;
 import ua.training.model.entity.StatementOfWork;
 import ua.training.model.entity.User;
@@ -18,8 +19,7 @@ import java.time.LocalDate;
  * Created by andrii on 22.01.17.
  */
 public class CreateStatementOfWork implements Command {
-
-    public static final String PARAM_NAME = "name";
+    private static final Logger logger = Logger.getLogger(CreateStatementOfWork.class);
 
     private StatementOfWorkService statementOfWorkService
             = StatementOfWorkService.getInstance();
@@ -27,22 +27,27 @@ public class CreateStatementOfWork implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pageToGo = PagesHolder.CUSTOMER_HOME_PAGE;
-        String name = request.getParameter(PARAM_NAME);
-
+        String pageToGo = PagesHolder.ADD_STATEMENT_OF_WORK_PAGE;
+        String name = request.getParameter(AttributesHolder.NAME);
+        logger.error(request.getCharacterEncoding());
+        logger.error(name);
         if(name != null){
-            User customer = (User)request.getSession().getAttribute(AttributesHolder.USER);
-            StatementOfWork statementOfWork = new StatementOfWork.Builder()
-                    .setName(name)
-                    .setFilingDate(LocalDate.now())
-                    .setCustomerId(customer.getId())
-                    .build();
+            StatementOfWork statementOfWork = buildStatementOfWork(request, name);
+            logger.error(statementOfWork.toString());
             statementOfWorkService.create(statementOfWork);
-            request.setAttribute(AttributesHolder.STATEMENT_OF_WORK, statementOfWork);
             request.getSession().setAttribute(AttributesHolder.STATEMENT_OF_WORK, statementOfWork);
-            pageToGo = "/rest" + UrlHolder.STATEMENT_OF_WORK;
+            pageToGo = UrlHolder.BASIC + UrlHolder.STATEMENTS_OF_WORK_BY_CUSTOMER;
         }
 
         return pageToGo;
+    }
+
+    private StatementOfWork buildStatementOfWork(HttpServletRequest request, String name) {
+        User customer = (User)request.getSession().getAttribute(AttributesHolder.USER);
+        return new StatementOfWork.Builder()
+                .setName(name)
+                .setFilingDate(LocalDate.now())
+                .setCustomerId(customer.getId())
+                .build();
     }
 }

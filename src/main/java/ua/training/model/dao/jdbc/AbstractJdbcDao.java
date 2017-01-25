@@ -5,6 +5,7 @@ import ua.training.model.dao.GenericDao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by andrii on 22.01.17.
@@ -67,13 +68,26 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
      * @param query
      * @param entity
      */
-    protected abstract void prepareStatementForUpdate(PreparedStatement query, E entity);
+    protected abstract void prepareStatementForUpdate(PreparedStatement query, E entity) throws SQLException;
 
     // todo?
     @Override
-    public E find(Integer id) {
-        return null;
+    public Optional<E> find(Integer id) {
+        Optional<E> result = Optional.empty();
+        try(PreparedStatement query =
+                    connection.prepareStatement(getSelectByIdQuery())){
+            query.setInt( 1 , id);
+            ResultSet resultSet = query.executeQuery();
+            if (resultSet.next()) {
+                result = Optional.of(getEntityFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
+
+    protected abstract String getSelectByIdQuery();
 
     @Override
     public List<E> findAll() {

@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static ua.training.controller.command.customer.CreateStatementOfWork.PARAM_NAME;
-
 /**
  * Created by andrii on 23.01.17.
  */

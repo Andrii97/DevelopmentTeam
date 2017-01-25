@@ -34,14 +34,6 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
         super(connection);
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
     @Override
     protected String getSelectAllQuery() {
         return SELECT_FROM_USER;
@@ -99,18 +91,8 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
     }
 
     @Override
-    public User find(Integer id) {
-        // todo
-        try(Statement query =
-                    connection.createStatement();
-            ResultSet resultSet = query.executeQuery(SELECT_FROM_USER)){
-            while (resultSet.next()) {
-                //result.add( getUserFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+    protected String getSelectByIdQuery() {
+        return SELECT_FROM_USER + WHERE_ID;
     }
 
     @Override

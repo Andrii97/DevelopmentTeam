@@ -5,10 +5,7 @@ import ua.training.controller.command.Command;
 import ua.training.controller.command.GetLoginPage;
 import ua.training.controller.command.Login;
 import ua.training.controller.command.Logout;
-import ua.training.controller.command.customer.CreateStatementOfWork;
-import ua.training.controller.command.customer.GetCustomerHomePage;
-import ua.training.controller.command.customer.GetStatementOfWork;
-import ua.training.controller.command.customer.GetStatementsOfWork;
+import ua.training.controller.command.customer.*;
 import ua.training.controller.command.developer.GetDeveloperHomePage;
 import ua.training.controller.command.manager.GetManagerHomePage;
 import ua.training.utils.constants.PagesHolder;
@@ -30,26 +27,34 @@ public class FrontController extends HttpServlet {
 
     public static final String REDIRECT = "redirect";
 
+    private static final String GET = "GET";
+    private static final String POST = "POST";
+
     private Map<String , Command> commands = new HashMap<>();
 
     private static final Logger logger = Logger.getLogger(FrontController.class);
 
     @Override
     public void init(){
-        commands.put("GET:/login", new GetLoginPage());
-        commands.put("POST:/login",  new Login());
+        commands.put(GET + ":/login", new GetLoginPage());
+        commands.put(POST + ":/login",  new Login());
 
-        commands.put("GET:" + UrlHolder.CUSTOMER_PREFIX, new GetCustomerHomePage());
-        commands.put("GET:" + UrlHolder.MANAGER_PREFIX, new GetManagerHomePage());
-        commands.put("GET:" + UrlHolder.DEVELOPER_PREFIX, new GetDeveloperHomePage());
+        commands.put(GET + ":" + UrlHolder.CUSTOMER_PREFIX, new GetCustomerHomePage());
+        commands.put(GET + ":" + UrlHolder.MANAGER_PREFIX, new GetManagerHomePage());
+        commands.put(GET + ":" + UrlHolder.DEVELOPER_PREFIX, new GetDeveloperHomePage());
 
-        commands.put("POST:" + UrlHolder.LOGOUT_PREFIX,  new Logout());
+        commands.put(GET + ":" + UrlHolder.LOGOUT_PREFIX,  new Logout());
 
-        commands.put("GET:" + UrlHolder.M_STATEMENTS_OF_WORK, new GetStatementsOfWork());
+        commands.put("GET:" + UrlHolder.M_STATEMENTS_OF_WORK, new GetStatementsOfWorkByCustomer());
 
-        commands.put("POST:/createSOW", new CreateStatementOfWork());
-        commands.put("GET:" + UrlHolder.STATEMENT_OF_WORK, new GetStatementOfWork());
-        commands.put("GET:" + UrlHolder.STATEMENTS_OF_WORK, new GetStatementsOfWork());
+        commands.put(GET + ":" + UrlHolder.ADD_STATEMENT_OF_WORK,
+                (req , resp)-> PagesHolder.ADD_STATEMENT_OF_WORK_PAGE);
+        commands.put(POST + ":" + UrlHolder.ADD_STATEMENT_OF_WORK, new CreateStatementOfWork());
+        commands.put(GET + ":" + UrlHolder.STATEMENT_OF_WORK, new GetStatementOfWork());
+        commands.put(GET + ":" + UrlHolder.STATEMENTS_OF_WORK_BY_CUSTOMER,
+                new GetStatementsOfWorkByCustomer());
+        commands.put(POST + ":" + UrlHolder.STATEMENT_OF_WORK, new UpdateStatementOfWork());
+        commands.put(GET + ":" + UrlHolder.DELETE_STATEMENT_OF_WORK, new DeleteStatementOfWork());
 
     }
 
@@ -73,9 +78,12 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         String method = request.getMethod().toUpperCase();
         String path = request.getRequestURI();
-        path = path.replaceAll(UrlHolder.BASIC, ""); // ".*/rest"
+        logger.debug("URL " + path);
+        path = path.replaceAll(UrlHolder.BASIC, "").replaceAll("\\d+", ""); // ".*/rest"
         String key = method + ":" + path;
-        Command command = commands.getOrDefault(key, (req , resp)-> PagesHolder.LOGIN_PAGE); // "error.jsp");//
+        logger.debug("KEY = " + key);
+        Command command = commands.getOrDefault(key, (req , resp)-> PagesHolder.PAGE_NOT_FOUND);
+        logger.debug(command);
         return command.execute(request, response);
     }
 }

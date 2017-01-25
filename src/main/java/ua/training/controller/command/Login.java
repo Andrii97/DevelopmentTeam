@@ -22,14 +22,7 @@ import java.util.Optional;
  * Created by andrii on 21.01.17.
  */
 public class Login implements Command {
-
-    public static final String PARAM_LOGIN = "login";
-
-    public static final String PARAM_PASSWORD ="password";
-
     private UserService userService = UserService.getInstance();
-
-    private DeveloperService developerService = DeveloperService.getInstance();
 
     private Map<Role, String> afterLoginPathToGoByRole = new HashMap<Role, String>() {{
         put(Role.CUSTOMER, UrlHolder.CUSTOMER_URL);// PagesHolder.CUSTOMER_HOME_PAGE);
@@ -41,8 +34,8 @@ public class Login implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pageToGo = PagesHolder.LOGIN_PAGE;
-        String email = request.getParameter(PARAM_LOGIN);
-        String password = request.getParameter(PARAM_PASSWORD);
+        String email = request.getParameter(AttributesHolder.EMAIL);
+        String password = request.getParameter(AttributesHolder.PASSWORD);
         if( email != null && password != null ){
             Optional<User> user;
             password = encrypt(password);

@@ -13,9 +13,9 @@
     <div>
         <form method="post" action="${UrlHolder.LOGIN}" >
             <fmt:message key="login.email" />
-            <input type="text" name="login"/><br/>
+            <input type="text" name="${AttributesHolder.EMAIL}"/><br/>
             <fmt:message key="login.password"/>
-            <input type="password" name="password"/><br/>
+            <input type="password" name="${AttributesHolder.PASSWORD}"/><br/>
             <button type="submit"><fmt:message key="login.submit"/></button>
         </form>
     </div>
