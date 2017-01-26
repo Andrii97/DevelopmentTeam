@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<%@include file="menu.jsp"%>
+<%@include file="../menu.jsp"%>
 <div>
     <form action="" method="post">
         <div class="block">

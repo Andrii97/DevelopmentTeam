@@ -2,8 +2,12 @@ package ua.training.model.service;
 
 import ua.training.model.dao.DaoConnection;
 import ua.training.model.dao.DaoFactory;
+import ua.training.model.dao.DeveloperHasTaskDao;
 import ua.training.model.dao.TaskDao;
+import ua.training.model.entity.Developer;
+import ua.training.model.entity.DeveloperHasTask;
 import ua.training.model.entity.Task;
+import ua.training.model.entity.User;
 
 import java.util.List;
 
@@ -32,6 +36,16 @@ public class TaskService {
         try( DaoConnection connection = daoFactory.getConnection() ){
             TaskDao dao = daoFactory.createTaskDao(connection);
             dao.create(task);
+        }
+    }
+
+    public List<Task> getByDeveloper(User developer) {
+        try( DaoConnection connection = daoFactory.getConnection() ){
+            TaskDao dao = daoFactory.createTaskDao(connection);
+            DeveloperHasTaskDao developerHasTaskDao = daoFactory
+                    .createDeveloperHasTaskDao(connection);
+            List<Task> result = developerHasTaskDao.findByDeveloperId(developer.getId());
+            return result;
         }
     }
 }

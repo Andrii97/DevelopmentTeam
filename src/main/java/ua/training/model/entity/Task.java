@@ -1,6 +1,6 @@
 package ua.training.model.entity;
 
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by andrii on 12.01.17.
@@ -10,7 +10,7 @@ public class Task {
     private String name;
     private String description;
     private Integer statementOfWorkId;
-    private HashMap<Qualification, Integer> taskRequirements; // qualification / developersNumber
+    private List<TaskRequirements> taskRequirements; // qualification / developersNumber
     private Boolean isFinished;
 
     public Integer getId() {
@@ -53,12 +53,52 @@ public class Task {
         isFinished = finished;
     }
 
-    public HashMap<Qualification, Integer> getTaskRequirements() {
+    public List<TaskRequirements> getTaskRequirements() {
         return taskRequirements;
     }
 
-    public void setTaskRequirements(HashMap<Qualification, Integer> taskRequirements) {
+    public void setTaskRequirements(List<TaskRequirements> taskRequirements) {
         this.taskRequirements = taskRequirements;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (!id.equals(task.id)) return false;
+        if (name != null ? !name.equals(task.name) : task.name != null) return false;
+        if (description != null ? !description.equals(task.description) : task.description != null) return false;
+        if (statementOfWorkId != null ? !statementOfWorkId.equals(task.statementOfWorkId) : task.statementOfWorkId != null)
+            return false;
+        if (taskRequirements != null ? !taskRequirements.equals(task.taskRequirements) : task.taskRequirements != null)
+            return false;
+        return isFinished != null ? isFinished.equals(task.isFinished) : task.isFinished == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (statementOfWorkId != null ? statementOfWorkId.hashCode() : 0);
+        result = 31 * result + (taskRequirements != null ? taskRequirements.hashCode() : 0);
+        result = 31 * result + (isFinished != null ? isFinished.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", statementOfWorkId=" + statementOfWorkId +
+                ", taskRequirements=" + taskRequirements +
+                ", isFinished=" + isFinished +
+                '}';
     }
 
     public static class Builder{
@@ -88,7 +128,7 @@ public class Task {
             return this;
         }
 
-        public Builder setTaskRequirements(HashMap<Qualification, Integer> taskRequirements) {
+        public Builder setTaskRequirements(List<TaskRequirements> taskRequirements) {
             instance.taskRequirements = taskRequirements;
             return this;
         }

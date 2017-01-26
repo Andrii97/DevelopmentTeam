@@ -10,6 +10,7 @@ public class UrlHolder {
     public static final String LOGIN = BASIC + LOGIN_PREFIX;
     public static final String LOGOUT_PREFIX = "/logout";
     public static final String LOGOUT = BASIC + LOGOUT_PREFIX;
+    public static final String SIGN_UP = "/signup";
 
     public static final String DEVELOPER_PREFIX = "/developer";
     public static final String MANAGER_PREFIX = "/manager";
@@ -21,11 +22,13 @@ public class UrlHolder {
     public static final String STATEMENTS_OF_WORK_BY_CUSTOMER = CUSTOMER_PREFIX + "/statementsOfWork";
     public static final String STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/statementOfWork/";
     public static final String DELETE_STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/delete/";
-
     public static final String ADD_STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/createSOW";
 
-    public static final String M_STATEMENTS_OF_WORK = BASIC +
-            MANAGER_PREFIX + "/statementsOfWork";
+    public static final String USERS = MANAGER_PREFIX + "/users";
+    public static final String ADD_USER = USERS + "/addUser";
+
+    public static final String TASKS = DEVELOPER_PREFIX + "/tasks";
+    public static final String PROJECTS = MANAGER_PREFIX + "/projects";
 
     public static final String PAGE_NOT_FOUND = "/notFound";
 }

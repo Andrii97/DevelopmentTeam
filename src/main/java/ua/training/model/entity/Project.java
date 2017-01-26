@@ -12,7 +12,7 @@ public class Project {
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer managerId;
-    private Integer bill;
+    private Integer bill; // TODO : to long
 
     public Integer getId() {
         return id;
@@ -68,6 +68,48 @@ public class Project {
 
     public void setBill(Integer bill) {
         this.bill = bill;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Project project = (Project) o;
+
+        if (!id.equals(project.id)) return false;
+        if (name != null ? !name.equals(project.name) : project.name != null) return false;
+        if (statementOfWorkId != null ? !statementOfWorkId.equals(project.statementOfWorkId) : project.statementOfWorkId != null)
+            return false;
+        if (startDate != null ? !startDate.equals(project.startDate) : project.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(project.endDate) : project.endDate != null) return false;
+        if (managerId != null ? !managerId.equals(project.managerId) : project.managerId != null) return false;
+        return bill != null ? bill.equals(project.bill) : project.bill == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (statementOfWorkId != null ? statementOfWorkId.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
+        result = 31 * result + (bill != null ? bill.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", statementOfWorkId=" + statementOfWorkId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", managerId=" + managerId +
+                ", bill=" + bill +
+                '}';
     }
 
     public static class Builder {

@@ -3,9 +3,12 @@ package ua.training.model.dao.jdbc;
 import ua.training.model.dao.TaskDao;
 import ua.training.model.entity.StatementOfWork;
 import ua.training.model.entity.Task;
+import ua.training.model.entity.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -20,6 +23,7 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
     private static final String SELECT_FROM_TASK = "SELECT * FROM task " +
             "JOIN task_requirements ON task.id = task_requirements.task_id ";
     private static final String WHERE_ID = "WHERE id = ? ";
+
 
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -58,13 +62,16 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     protected Task getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        return parseResultSet(resultSet);
+    }
+
+    public static Task parseResultSet(ResultSet resultSet) throws SQLException {
         return new Task.Builder()
                 .setId(resultSet.getInt(ID))
                 .setName(resultSet.getString(NAME))
                 .setDescription(resultSet.getString(DESCRIPTION))
                 .setStatementOfWorkId(resultSet.getInt(STATEMENT_OF_WORK_ID))
                 .setFinished(resultSet.getBoolean(IS_FINISHED))
-                // todo: set requirements
                 .build();
     }
 
@@ -99,5 +106,22 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
     @Override
     public List<Task> findByStatementOfWork(StatementOfWork statementOfWork) {
         return null;
+    }
+
+    @Override
+    public List<Task> findByDeveloper(User developer) {
+//        List<StatementOfWork> result = new ArrayList<>();
+//        try(PreparedStatement query =
+//                    connection.prepareStatement(SELECT_FROM_TASK + WHERE_USER_ID)){
+//            query.setInt( 1 , customer.getId());
+//            ResultSet resultSet = query.executeQuery();
+//            while (resultSet.next()) {
+//                result.add( getEntityFromResultSet(resultSet));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return result;
+        throw new UnsupportedOperationException();
     }
 }

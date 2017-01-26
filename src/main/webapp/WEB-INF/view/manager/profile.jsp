@@ -7,8 +7,7 @@
     <title>Registered user</title>
 </head>
 <body>
-<%@include file="menu.jsp"%>
+<%@include file="../menu.jsp"%>
 <%@include file="../basicProfile.jsp"%>
-
 </body>
 </html>

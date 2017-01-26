@@ -22,5 +22,11 @@ public class AttributesHolder {
     public static final String FILLING_DATE = "fillingDate";
     public static final String CUSTOMER_ID = "customerId";
     public static final String APPROVED = "approved";
+    public static final String FIRST_NAME = "firstName";
+    public static final String MIDDLE_NAME = "middleName";
+    public static final String LAST_NAME = "lastName";
+    public static final String ROLE = "role";
+    public static final String ROLES = "roles";
+    public static final String TASKS = "tasks";
 
 }

@@ -1,12 +1,15 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.DeveloperHasTaskDao;
 import ua.training.model.entity.DeveloperHasTask;
+import ua.training.model.entity.Task;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +18,17 @@ import java.util.Optional;
  */
 public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
         implements DeveloperHasTaskDao {
+
+    private static Logger logger = Logger.getLogger(JdbcDeveloperHasTaskDao.class);
+
     private static final String INSERT_INTO_DEVELOPER_HAS_TASK = "INSERT INTO " +
             "developer_has_task (developer_id, task_id, project_id, elapsed_time)" +
             " VALUES ( ?, ?, ?, ? ) ";
     private static final String SELECT_FROM_DEVELOPER_HAS_TASK =
-            "SELECT * FROM developer_has_task ";
+            "SELECT * FROM developer_has_task JOIN task ON task.id = developer_has_task.task_id ";
+    private static final String WHERE_DEVELOPER_ID = "WHERE developer_has_task.developer_user_id = ? ";
 
-    public static final String DEVELOPER_ID = "developer_id";
+    public static final String DEVELOPER_ID = "developer_user_id";
     public static final String TASK_ID = "task_id";
     public static final String PROJECT_ID = "project_id";
     public static final String ELAPSED_TIME = "elapsed_time";
@@ -89,4 +96,27 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public List<Task> findByDeveloperId(Integer id) {
+        List<DeveloperHasTask> result = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
+        try(PreparedStatement query =
+                    connection.prepareStatement(SELECT_FROM_DEVELOPER_HAS_TASK
+                            + WHERE_DEVELOPER_ID)){
+            query.setInt(1 , id);
+            ResultSet resultSet = query.executeQuery();
+//            logger.debug("ROWS " + resultSet.getRow());
+
+            while (resultSet.next()) {
+                result.add(getEntityFromResultSet(resultSet));
+                tasks.add(JdbcTaskDao.parseResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new RuntimeException(e);
+        }
+        logger.debug(result.stream().toString());
+        logger.debug(tasks.toString());
+        return tasks;
+    }
 }

@@ -7,7 +7,11 @@ import ua.training.controller.command.Login;
 import ua.training.controller.command.Logout;
 import ua.training.controller.command.customer.*;
 import ua.training.controller.command.developer.GetDeveloperHomePage;
+import ua.training.controller.command.developer.GetTasksByDeveloper;
+import ua.training.controller.command.manager.AddNewUser;
+import ua.training.controller.command.manager.GetAddNewUserPage;
 import ua.training.controller.command.manager.GetManagerHomePage;
+import ua.training.controller.command.manager.GetUsers;
 import ua.training.utils.constants.PagesHolder;
 import ua.training.utils.constants.UrlHolder;
 
@@ -45,8 +49,7 @@ public class FrontController extends HttpServlet {
 
         commands.put(GET + ":" + UrlHolder.LOGOUT_PREFIX,  new Logout());
 
-        commands.put("GET:" + UrlHolder.M_STATEMENTS_OF_WORK, new GetStatementsOfWorkByCustomer());
-
+        // customer's
         commands.put(GET + ":" + UrlHolder.ADD_STATEMENT_OF_WORK,
                 (req , resp)-> PagesHolder.ADD_STATEMENT_OF_WORK_PAGE);
         commands.put(POST + ":" + UrlHolder.ADD_STATEMENT_OF_WORK, new CreateStatementOfWork());
@@ -56,6 +59,11 @@ public class FrontController extends HttpServlet {
         commands.put(POST + ":" + UrlHolder.STATEMENT_OF_WORK, new UpdateStatementOfWork());
         commands.put(GET + ":" + UrlHolder.DELETE_STATEMENT_OF_WORK, new DeleteStatementOfWork());
 
+        // manager's
+        commands.put(GET + ":" + UrlHolder.USERS, new GetUsers());
+        commands.put(GET + ":" + UrlHolder.ADD_USER, new GetAddNewUserPage());
+        commands.put(POST + ":" + UrlHolder.ADD_USER, new AddNewUser());
+        commands.put(GET + ":" + UrlHolder.TASKS, new GetTasksByDeveloper());
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -110,7 +110,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
                 result.add( getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); // TODO: specific exception
         }
         return result;
     }

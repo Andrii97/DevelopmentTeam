@@ -7,7 +7,7 @@
     <title>statementOfWork</title>
 </head>
 <body>
-    <%@include file="menu.jsp"%>
+    <%@include file="../menu.jsp"%>
     <div>
         <form action="" method="post">
             <input type="hidden" name="${AttributesHolder.ID}" value="${statementOfWork.id}"/><br/>

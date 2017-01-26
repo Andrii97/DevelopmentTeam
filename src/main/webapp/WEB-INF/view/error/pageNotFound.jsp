@@ -10,8 +10,7 @@
 </head>
 
 <body>
-    <%@include file="../header.jsp"%>
-    
+    <%@include file="../menu.jsp"%>
     <div class="col-sm-9 section">
         <h2><small><fmt:message key="system.error"/></small></h2>
         <hr>
@@ -21,6 +20,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

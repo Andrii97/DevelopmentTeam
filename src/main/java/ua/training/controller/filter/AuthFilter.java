@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class AuthFilter implements Filter {
 
-    Logger logger = Logger.getLogger(AuthFilter.class);
+    private static Logger logger = Logger.getLogger(AuthFilter.class);
 
     Map<Role, String> roleUrlMap;
 

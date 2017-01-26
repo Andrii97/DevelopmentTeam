@@ -1,5 +1,6 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.GenericDao;
 
 import java.sql.*;
@@ -12,7 +13,7 @@ import java.util.Optional;
  */
 public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
     protected Connection connection;
-
+    private static Logger logger = Logger.getLogger(AbstractJdbcDao.class);
     public AbstractJdbcDao(Connection connection) {
         this.connection = connection;
     }
@@ -82,6 +83,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
                 result = Optional.of(getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return result;
@@ -99,6 +101,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
                 result.add( getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return result;
@@ -116,6 +119,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
                 setIdForEntity(entity, keys.getInt(1));
             }
         } catch (SQLException e) {
+            logger.info(e);
             throw new RuntimeException(e);
         }
     }
@@ -130,6 +134,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
                 throw new RuntimeException("On update modify more then 1 record: " + count);
             }
         } catch (Exception e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -141,6 +146,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
             query.setInt(1, id);
             query.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

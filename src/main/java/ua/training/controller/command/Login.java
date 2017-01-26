@@ -1,10 +1,8 @@
 package ua.training.controller.command;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
+import ua.training.controller.security.Md5Encryption;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
-import ua.training.model.service.DeveloperService;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
@@ -38,7 +36,7 @@ public class Login implements Command {
         String password = request.getParameter(AttributesHolder.PASSWORD);
         if( email != null && password != null ){
             Optional<User> user;
-            password = encrypt(password);
+            password = Md5Encryption.encrypt(password);
             user = userService.login(email, password);
             user.ifPresent(person -> request
                     .getSession()
@@ -49,7 +47,4 @@ public class Login implements Command {
         return pageToGo;
     }
 
-    public String encrypt(String st) {
-        return DigestUtils.md5Hex(st);
-    }
 }

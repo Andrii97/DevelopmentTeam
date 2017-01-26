@@ -6,7 +6,7 @@ package ua.training.model.entity;
 public class Developer {
     private User user;
     private Qualification qualification;
-    private Boolean isFree;
+    private Boolean isFree; // TODO: builder
 
     public Developer(User user, Qualification qualification, Boolean isFree) {
         this.user = user;

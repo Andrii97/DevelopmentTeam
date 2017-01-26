@@ -6,7 +6,7 @@
     <title>statementOfWork</title>
 </head>
 <body>
-<jsp:include page="../headerForAuthorizedUser.jsp"/>
+<jsp:include page="../menu.jsp"/>
 <c:out value="${statementsOfWork}"/><br/>
 
 <div align="center">
