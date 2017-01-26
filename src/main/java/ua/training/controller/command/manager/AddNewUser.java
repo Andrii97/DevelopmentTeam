@@ -1,13 +1,14 @@
 package ua.training.controller.command.manager;
 
 import org.apache.log4j.Logger;
+import ua.training.controller.FrontController;
 import ua.training.controller.command.Command;
 import ua.training.controller.security.Md5Encryption;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
-import ua.training.utils.constants.UrlHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,8 @@ public class AddNewUser implements Command {
         User user = getUserEntityFromRequest(request);
         logger.info("NEW USER" + user.toString());
         userService.create(user);
-        return UrlHolder.BASIC + UrlHolder.USERS;
+        response.sendRedirect(PathsHolder.BASIC + PathsHolder.USERS);
+        return FrontController.REDIRECT;
     }
 
     private User getUserEntityFromRequest(HttpServletRequest request) {

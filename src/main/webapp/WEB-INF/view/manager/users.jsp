@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="ua.training.utils.constants.AttributesHolder" %>
-<%@ page import="ua.training.utils.constants.UrlHolder" %>
+<%@ page import="ua.training.utils.constants.PathsHolder" %>
 <html>
 <head>
     <title></title>
 </head>
 <body>
 <%@include file="../menu.jsp"%>
-<a href="${UrlHolder.BASIC}${UrlHolder.ADD_USER}"><fmt:message key="create"/></a>
+<a href="${PathsHolder.BASIC}${PathsHolder.ADD_USER}"><fmt:message key="create"/></a>
 <table border="1" cellpadding="5">
     <caption><fmt:message key="users"/></caption>
     <tr>

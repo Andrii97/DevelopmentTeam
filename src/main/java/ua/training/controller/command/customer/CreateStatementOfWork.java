@@ -1,13 +1,14 @@
 package ua.training.controller.command.customer;
 
 import org.apache.log4j.Logger;
+import ua.training.controller.FrontController;
 import ua.training.controller.command.Command;
 import ua.training.model.entity.StatementOfWork;
 import ua.training.model.entity.User;
 import ua.training.model.service.StatementOfWorkService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
-import ua.training.utils.constants.UrlHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +32,14 @@ public class CreateStatementOfWork implements Command {
         String name = request.getParameter(AttributesHolder.NAME);
         logger.error(request.getCharacterEncoding());
         logger.error(name);
-        if(name != null){
+        if(name != null) {
             StatementOfWork statementOfWork = buildStatementOfWork(request, name);
             logger.error(statementOfWork.toString());
             statementOfWorkService.create(statementOfWork);
             request.getSession().setAttribute(AttributesHolder.STATEMENT_OF_WORK, statementOfWork);
-            pageToGo = UrlHolder.BASIC + UrlHolder.STATEMENTS_OF_WORK_BY_CUSTOMER;
+            pageToGo = PathsHolder.BASIC + PathsHolder.STATEMENTS_OF_WORK_BY_CUSTOMER;
+            response.sendRedirect(pageToGo);
+            pageToGo = FrontController.REDIRECT;
         }
 
         return pageToGo;

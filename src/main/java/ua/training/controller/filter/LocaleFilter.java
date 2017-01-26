@@ -1,6 +1,5 @@
 package ua.training.controller.filter;
 
-import org.apache.log4j.Logger;
 import ua.training.controller.i18n.SupportedLocaleHolder;
 import ua.training.utils.constants.AttributesHolder;
 
@@ -14,12 +13,8 @@ import java.util.Locale;
  * Created by andrii on 23.01.17.
  */
 public class LocaleFilter implements Filter {
-    /**
-     * Logger for logging operations.
-     */
-    private static final Logger logger = Logger.getLogger(LocaleFilter.class);
 
-    public static final String PATH_TO_BUNDLE_FILE = "i18n.messages";
+    private static final String PATH_TO_BUNDLE_FILE = "i18n.messages";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -32,7 +27,7 @@ public class LocaleFilter implements Filter {
 
         setUpResourceBundleSource(req);
         changeUserLocaleByRequestParameter(req);
-        setUpUserLocaleIfAbsent(req);
+        setUserLocaleIfAbsent(req);
 
         chain.doFilter(request, response);
     }
@@ -53,7 +48,7 @@ public class LocaleFilter implements Filter {
         }
     }
 
-    private void setUpUserLocaleIfAbsent(HttpServletRequest request) {
+    private void setUserLocaleIfAbsent(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session.getAttribute(AttributesHolder.LOCALE) != null) {
             return;

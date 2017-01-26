@@ -3,7 +3,7 @@ package ua.training.utils.constants;
 /**
  * Created by andrii on 21.01.17.
  */
-public class UrlHolder {
+public class PathsHolder {
     public static final String BASIC = "/rest";
 
     public static final String LOGIN_PREFIX = "/login";

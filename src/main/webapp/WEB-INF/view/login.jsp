@@ -1,4 +1,4 @@
-<%@ page import="ua.training.utils.constants.UrlHolder" %>
+<%@ page import="ua.training.utils.constants.PathsHolder" %>
 <%@ page import="ua.training.utils.constants.AttributesHolder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -11,7 +11,7 @@
     <%@include file="./menu.jsp"%>
     <div class="container">
         <div class="center jumbotron authorization-section">
-            <form method="post" action="${UrlHolder.LOGIN}">
+            <form method="post" action="${PathsHolder.LOGIN}">
                 <h2 class="form-signin-heading"><fmt:message key="login.title"/><br/></h2>
                 <br/>
                 <input type="text" class="form-control" name="${AttributesHolder.EMAIL}" placeholder="<fmt:message key="login.email" />" required/>

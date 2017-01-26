@@ -5,7 +5,7 @@ import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.LoggerMessages;
-import ua.training.utils.constants.UrlHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -22,14 +22,14 @@ public class AuthFilter implements Filter {
 
     private static Logger logger = Logger.getLogger(AuthFilter.class);
 
-    Map<Role, String> roleUrlMap;
+    private Map<Role, String> roleUrlMap;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         roleUrlMap = new HashMap<>();
-        roleUrlMap.put(Role.MANAGER, UrlHolder.MANAGER_URL);
-        roleUrlMap.put(Role.CUSTOMER, UrlHolder.CUSTOMER_URL);
-        roleUrlMap.put(Role.DEVELOPER, UrlHolder.DEVELOPER_URL);
+        roleUrlMap.put(Role.MANAGER, PathsHolder.MANAGER_URL);
+        roleUrlMap.put(Role.CUSTOMER, PathsHolder.CUSTOMER_URL);
+        roleUrlMap.put(Role.DEVELOPER, PathsHolder.DEVELOPER_URL);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AuthFilter implements Filter {
     }
 
     private String getHomeUrl(Role role) {
-        return role == null ? UrlHolder.LOGIN : roleUrlMap.get(role);
+        return role == null ? PathsHolder.LOGIN : roleUrlMap.get(role);
     }
 
     private Role getUserRole(HttpServletRequest request) {

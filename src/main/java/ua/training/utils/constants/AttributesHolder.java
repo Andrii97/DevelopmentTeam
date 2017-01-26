@@ -30,4 +30,5 @@ public class AttributesHolder {
     public static final String TASKS = "tasks";
 
     public static final String ERRORS = "errors";
+    public static final String ERROR_MESSAGE = "system error";
 }

@@ -3,20 +3,20 @@ package ua.training.exception;
 /**
  * Created by andrii on 26.01.17.
  */
-public class ApplicationExeption extends RuntimeException {
+public class ApplicationException extends RuntimeException {
 
     private String messageKey;
 
     private String logMessage; // todo:
 
-    protected ApplicationExeption() {
+    protected ApplicationException() {
     }
 
-    protected ApplicationExeption(String messageKey) {
+    protected ApplicationException(String messageKey) {
         this.messageKey = messageKey;
     }
 
-    protected ApplicationExeption(String messageKey, Throwable cause) {
+    protected ApplicationException(String messageKey, Throwable cause) {
         super(cause);
         this.messageKey = messageKey;
     }

@@ -5,9 +5,6 @@
 </head>
 <body>
 <%@include file="../menu.jsp"%>
-<div align="left">
-    <a href="${UrlHolder.BASIC}${UrlHolder.ADD_STATEMENT_OF_WORK}"><fmt:message key="create"/></a>
-</div>
 <div align="center">
     <table border="1" cellpadding="5">
         <caption><fmt:message key="tasks"/></caption>

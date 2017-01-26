@@ -6,7 +6,6 @@ import ua.training.model.entity.User;
 import ua.training.model.service.StatementOfWorkService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
-import ua.training.utils.constants.UrlHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +29,7 @@ public class GetStatementsOfWorkByCustomer implements Command {
                 statementOfWorkService.getByCustomer(customer);
 
         request.setAttribute(AttributesHolder.STATEMENTS_OF_WORK, statementsOfWork);
-//        response.sendRedirect(UrlHolder.BASIC + UrlHolder.STATEMENTS_OF_WORK_BY_CUSTOMER);
+//        response.sendRedirect(PathsHolder.BASIC + PathsHolder.STATEMENTS_OF_WORK_BY_CUSTOMER);
         String pageToGo = PagesHolder.STATEMENTS_OF_WORK_PAGE;
 
         return pageToGo;

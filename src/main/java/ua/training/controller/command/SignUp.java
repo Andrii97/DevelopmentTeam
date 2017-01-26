@@ -1,6 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.controller.i18n.ErrorsMessages;
+import ua.training.controller.FrontController;
 import ua.training.controller.security.Md5Encryption;
 import ua.training.controller.validator.Errors;
 import ua.training.controller.validator.UserValidator;
@@ -9,7 +9,7 @@ import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
-import ua.training.utils.constants.UrlHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +40,8 @@ public class SignUp implements Command {
             session.setAttribute(AttributesHolder.USER, user);
 
             // redirect to profile
-            return Login.afterLoginPathToGoByRole.get(user.getRole());
+            response.sendRedirect(Login.afterLoginPathToGoByRole.get(user.getRole()));
+            return FrontController.REDIRECT;
 //            // todo: user exist
 //            errors.addMessage(AttributesHolder.EMAIL, ErrorsMessages.USER_EXIST);
 //            errors.setResult(false);
@@ -48,7 +49,7 @@ public class SignUp implements Command {
         user.setPassword(null);
         request.getSession().setAttribute(AttributesHolder.USER, user);
         request.getSession().setAttribute(AttributesHolder.ERRORS, errors);
-        return UrlHolder.BASIC + UrlHolder.SIGN_UP;
+        return PathsHolder.BASIC + PathsHolder.SIGN_UP;
     }
 
     private User buildUser(HttpServletRequest request) {

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="ua.training.utils.constants.UrlHolder" %>
+<%@ page import="ua.training.utils.constants.PathsHolder" %>
 <html>
 <head>
     <title>statementOfWork</title>
@@ -9,7 +9,7 @@
 <body>
 <%@include file="../menu.jsp"%>
 <div align="left">
-    <a href="${UrlHolder.BASIC}${UrlHolder.ADD_STATEMENT_OF_WORK}"><fmt:message key="create"/></a>
+    <a href="${PathsHolder.BASIC}${PathsHolder.ADD_STATEMENT_OF_WORK}"><fmt:message key="create"/></a>
 </div>
 <div>
     <table class="table">

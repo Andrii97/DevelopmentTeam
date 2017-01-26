@@ -1,12 +1,13 @@
 package ua.training.controller.command;
 
+import ua.training.controller.FrontController;
 import ua.training.controller.security.Md5Encryption;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
-import ua.training.utils.constants.UrlHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +24,9 @@ public class Login implements Command {
     private UserService userService = UserService.getInstance();
 
     static Map<Role, String> afterLoginPathToGoByRole = new HashMap<Role, String>() {{
-        put(Role.CUSTOMER, UrlHolder.CUSTOMER_URL);
-        put(Role.MANAGER, UrlHolder.MANAGER_URL);
-        put(Role.DEVELOPER, UrlHolder.DEVELOPER_URL);
+        put(Role.CUSTOMER, PathsHolder.CUSTOMER_URL);
+        put(Role.MANAGER, PathsHolder.MANAGER_URL);
+        put(Role.DEVELOPER, PathsHolder.DEVELOPER_URL);
     }}; // todo: private or role url or static or to url holder
 
     @Override
@@ -43,6 +44,8 @@ public class Login implements Command {
                     .setAttribute(AttributesHolder.USER, person));
             Role role = user.map(User::getRole).orElseThrow(RuntimeException::new);
             pageToGo = afterLoginPathToGoByRole.get(role);
+            response.sendRedirect(pageToGo);
+            pageToGo = FrontController.REDIRECT;
         }
         return pageToGo;
     }

@@ -3,7 +3,7 @@ package ua.training.controller.command.customer;
 import ua.training.controller.FrontController;
 import ua.training.controller.command.Command;
 import ua.training.model.service.StatementOfWorkService;
-import ua.training.utils.constants.UrlHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class DeleteStatementOfWork implements Command {
 
         statementOfWorkService.delete(statementOfWorkId);
 
-        response.sendRedirect(UrlHolder.BASIC + UrlHolder.STATEMENTS_OF_WORK_BY_CUSTOMER);
+        response.sendRedirect(PathsHolder.BASIC + PathsHolder.STATEMENTS_OF_WORK_BY_CUSTOMER);
 
         return FrontController.REDIRECT;
     }
