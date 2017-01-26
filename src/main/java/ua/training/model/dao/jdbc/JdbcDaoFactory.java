@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.*;
+import ua.training.model.dao.exception.DaoException;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -25,7 +26,7 @@ public class JdbcDaoFactory extends DaoFactory{
             dataSource = (DataSource) ic.lookup("java:comp/env/jdbc/development_team");
 
         }catch(Exception e){
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 
@@ -34,7 +35,7 @@ public class JdbcDaoFactory extends DaoFactory{
         try {
             return new JdbcDaoConnection(dataSource.getConnection());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 

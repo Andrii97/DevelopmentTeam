@@ -2,6 +2,7 @@ package ua.training.model.dao.jdbc;
 
 import org.apache.log4j.Logger;
 import ua.training.model.dao.DeveloperHasTaskDao;
+import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.DeveloperHasTask;
 import ua.training.model.entity.Task;
 
@@ -49,12 +50,12 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
 
     @Override
     protected String getUpdateQuery() {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
     protected String getDeleteQuery() {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
@@ -83,17 +84,17 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, DeveloperHasTask entity) {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
     public Optional<DeveloperHasTask> find(Integer id) {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
     protected String getSelectByIdQuery() {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
@@ -105,15 +106,13 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
                             + WHERE_DEVELOPER_ID)){
             query.setInt(1 , id);
             ResultSet resultSet = query.executeQuery();
-//            logger.debug("ROWS " + resultSet.getRow());
-
             while (resultSet.next()) {
                 result.add(getEntityFromResultSet(resultSet));
                 tasks.add(JdbcTaskDao.parseResultSet(resultSet));
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
         logger.debug(result.stream().toString());
         logger.debug(tasks.toString());

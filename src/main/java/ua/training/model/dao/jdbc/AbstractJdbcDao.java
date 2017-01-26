@@ -2,6 +2,7 @@ package ua.training.model.dao.jdbc;
 
 import org.apache.log4j.Logger;
 import ua.training.model.dao.GenericDao;
+import ua.training.model.dao.exception.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -71,7 +72,6 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
      */
     protected abstract void prepareStatementForUpdate(PreparedStatement query, E entity) throws SQLException;
 
-    // todo?
     @Override
     public Optional<E> find(Integer id) {
         Optional<E> result = Optional.empty();
@@ -84,7 +84,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
         return result;
     }
@@ -102,7 +102,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
         return result;
     }
@@ -120,7 +120,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
             }
         } catch (SQLException e) {
             logger.info(e);
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 
@@ -131,11 +131,12 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
             prepareStatementForUpdate(query, entity);
             int count = query.executeUpdate();
             if (count != 1) {
-                throw new RuntimeException("On update modify more then 1 record: " + count);
+                logger.error("On update modify more then 1 record: " + count);
+                throw new DaoException();
             }
         } catch (Exception e) {
             logger.error(e);
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 
@@ -147,7 +148,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
             query.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 }

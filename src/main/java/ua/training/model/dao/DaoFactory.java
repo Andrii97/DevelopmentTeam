@@ -1,5 +1,7 @@
 package ua.training.model.dao;
 
+import ua.training.model.dao.exception.DaoException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -34,7 +36,7 @@ public abstract class DaoFactory {
 
             } catch (IOException | IllegalAccessException|
                     InstantiationException |ClassNotFoundException e ) {
-                throw new RuntimeException(e);
+                throw new DaoException(e);
             }
         }
         return instance;

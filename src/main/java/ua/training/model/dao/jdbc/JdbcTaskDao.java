@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.TaskDao;
+import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.StatementOfWork;
 import ua.training.model.entity.Task;
 import ua.training.model.entity.User;
@@ -110,18 +111,6 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     public List<Task> findByDeveloper(User developer) {
-//        List<StatementOfWork> result = new ArrayList<>();
-//        try(PreparedStatement query =
-//                    connection.prepareStatement(SELECT_FROM_TASK + WHERE_USER_ID)){
-//            query.setInt( 1 , customer.getId());
-//            ResultSet resultSet = query.executeQuery();
-//            while (resultSet.next()) {
-//                result.add( getEntityFromResultSet(resultSet));
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return result;
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 }

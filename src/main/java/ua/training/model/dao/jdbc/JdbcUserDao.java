@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.UserDao;
+import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.Qualification;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
@@ -117,7 +118,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
 
         return result;

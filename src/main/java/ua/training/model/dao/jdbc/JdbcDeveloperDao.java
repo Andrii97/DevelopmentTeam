@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.DeveloperDao;
+import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.Developer;
 import ua.training.model.entity.Qualification;
 import ua.training.model.entity.Role;
@@ -64,18 +65,20 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected Developer getEntityFromResultSet(ResultSet resultSet) throws SQLException {
-        return new Developer(new User.Builder()
-                .setId(resultSet.getInt(ID))
-                .setFirstName(resultSet.getString(FIRST_NAME))
-                .setMiddleName(resultSet.getString(MIDDLE_NAME))
-                .setLastName(resultSet.getString(LAST_NAME))
-                .setEmail(resultSet.getString(EMAIL))
-                .setPassword(resultSet.getString(PASSWORD))
-                .setActive(resultSet.getBoolean(IS_ACTIVE))
-                .setRole(Role.valueOf(resultSet.getString(ROLE)))
-                .build(),
-                Qualification.valueOf(resultSet.getString(QUALIFICATION)),
-                resultSet.getBoolean(IS_FREE));
+        return new Developer.Builder()
+                .setUser(new User.Builder()
+                                .setId(resultSet.getInt(ID))
+                                .setFirstName(resultSet.getString(FIRST_NAME))
+                                .setMiddleName(resultSet.getString(MIDDLE_NAME))
+                                .setLastName(resultSet.getString(LAST_NAME))
+                                .setEmail(resultSet.getString(EMAIL))
+                                .setPassword(resultSet.getString(PASSWORD))
+                                .setActive(resultSet.getBoolean(IS_ACTIVE))
+                                .setRole(Role.valueOf(resultSet.getString(ROLE)))
+                                .build())
+                .setQualification(Qualification.valueOf(resultSet.getString(QUALIFICATION)))
+                .setFree(resultSet.getBoolean(IS_FREE))
+                .build();
     }
 
     @Override
@@ -91,7 +94,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, Developer entity) {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
@@ -110,7 +113,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
                 result.add( getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e); // TODO: specific exception
+            throw new DaoException(e);
         }
         return result;
     }

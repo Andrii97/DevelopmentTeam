@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.DaoConnection;
+import ua.training.model.dao.exception.DaoException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class JdbcDaoConnection implements DaoConnection {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 
@@ -32,7 +33,7 @@ public class JdbcDaoConnection implements DaoConnection {
             connection.commit();
             inTransaction = false;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 
@@ -42,7 +43,7 @@ public class JdbcDaoConnection implements DaoConnection {
             connection.rollback();
             inTransaction = false;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 
@@ -54,7 +55,7 @@ public class JdbcDaoConnection implements DaoConnection {
         try {
             connection.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
     }
 

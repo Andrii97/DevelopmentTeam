@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.StatementOfWorkDao;
+import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.StatementOfWork;
 import ua.training.model.entity.User;
 import ua.training.utils.date.ConvertDate;
@@ -110,7 +111,7 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
                 result.add( getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
         return result;
     }

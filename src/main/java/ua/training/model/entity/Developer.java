@@ -6,13 +6,7 @@ package ua.training.model.entity;
 public class Developer {
     private User user;
     private Qualification qualification;
-    private Boolean isFree; // TODO: builder
-
-    public Developer(User user, Qualification qualification, Boolean isFree) {
-        this.user = user;
-        this.qualification = qualification;
-        this.isFree = isFree;
-    }
+    private Boolean isFree;
 
     public User getUser() {
         return user;
@@ -65,5 +59,28 @@ public class Developer {
                 ", qualification=" + qualification +
                 ", isFree=" + isFree +
                 '}';
+    }
+
+    public static class Builder {
+        Developer instance = new Developer();
+
+        public Builder setUser(User user) {
+            instance.user = user;
+            return this;
+        }
+
+        public Builder setQualification(Qualification qualification) {
+            instance.qualification = qualification;
+            return this;
+        }
+
+        public Builder setFree(Boolean free) {
+            instance.isFree = free;
+            return this;
+        }
+
+        public Developer build() {
+            return instance;
+        }
     }
 }

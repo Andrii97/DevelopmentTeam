@@ -1,6 +1,7 @@
 package ua.training.model.dao.jdbc;
 
 import ua.training.model.dao.ProjectDao;
+import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.Project;
 import ua.training.utils.date.ConvertDate;
 
@@ -46,7 +47,7 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
 
     @Override
     protected String getUpdateQuery() {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
@@ -85,7 +86,7 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, Project entity) {
-        throw new UnsupportedOperationException();
+        throw new DaoException(new UnsupportedOperationException());
     }
 
     @Override
