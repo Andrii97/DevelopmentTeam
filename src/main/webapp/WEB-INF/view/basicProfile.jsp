@@ -2,17 +2,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div>
     <div>
-        <label><fmt:message key="user.firstName"/> </label>
+        <label><fmt:message key="user.first.name"/> </label>
         <c:out value="${user.firstName}"/>
         <br/>
     </div>
     <div>
-        <label><fmt:message key="user.middleName"/> </label>
+        <label><fmt:message key="user.middle.name"/> </label>
         <c:out value="${user.middleName}"/>
         <br/>
     </div>
     <div>
-        <label><fmt:message key="user.lastName"/> </label>
+        <label><fmt:message key="user.last.name"/> </label>
         <c:out value="${user.lastName}"/>
         <br/>
     </div>

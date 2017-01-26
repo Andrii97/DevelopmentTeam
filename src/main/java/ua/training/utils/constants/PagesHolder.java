@@ -36,4 +36,5 @@ public class PagesHolder {
     // developer's pages
     public static final String DEVELOPER_HOME_PAGE = PREFIX + UrlHolder.DEVELOPER_PREFIX + PROFILE;
     public static final String TASKS_BY_DEVELOPER = PREFIX + UrlHolder.DEVELOPER_PREFIX + "/tasks.jsp";
+    public static final String SIGN_UP = PREFIX + "/signUp.jsp";
 }

@@ -12,9 +12,9 @@
     <caption><fmt:message key="users"/></caption>
     <tr>
         <th><fmt:message key="user.id"/></th>
-        <th><fmt:message key="user.firstName"/></th>
-        <th><fmt:message key="user.middleName"/></th>
-        <th><fmt:message key="user.lastName"/></th>
+        <th><fmt:message key="user.first.name"/></th>
+        <th><fmt:message key="user.middle.name"/></th>
+        <th><fmt:message key="user.last.name"/></th>
         <th><fmt:message key="user.role"/></th>
         <th><fmt:message key="user.is.active"/></th>
     </tr>

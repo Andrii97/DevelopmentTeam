@@ -42,7 +42,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="${UrlHolder.SIGN_UP}">
+                        <a href="${UrlHolder.BASIC}${UrlHolder.SIGN_UP}">
                             <span class="glyphicon glyphicon-user"></span> <fmt:message key="sign.up"/>
                         </a>
                     </li>

@@ -10,15 +10,15 @@ ADD User
     <div>
         <form action="" method="post">
             <div class="block">
-                <label><fmt:message key="user.firstName"/></label>
+                <label><fmt:message key="user.first.name"/></label>
                 <input type="text" name="${AttributesHolder.FIRST_NAME}"/><br/>
             </div>
             <div class="block">
-                <label><fmt:message key="user.middleName"/></label>
+                <label><fmt:message key="user.middle.name"/></label>
                 <input type="text" name="${AttributesHolder.MIDDLE_NAME}"/><br/>
             </div>
             <div class="block">
-                <label><fmt:message key="user.lastName"/></label>
+                <label><fmt:message key="user.last.name"/></label>
                 <input type="text" name="${AttributesHolder.LAST_NAME}"/><br/>
             </div>
             <div class="block">

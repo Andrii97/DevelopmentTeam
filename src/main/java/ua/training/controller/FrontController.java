@@ -1,10 +1,7 @@
 package ua.training.controller;
 
 import org.apache.log4j.Logger;
-import ua.training.controller.command.Command;
-import ua.training.controller.command.GetLoginPage;
-import ua.training.controller.command.Login;
-import ua.training.controller.command.Logout;
+import ua.training.controller.command.*;
 import ua.training.controller.command.customer.*;
 import ua.training.controller.command.developer.GetDeveloperHomePage;
 import ua.training.controller.command.developer.GetTasksByDeveloper;
@@ -48,6 +45,8 @@ public class FrontController extends HttpServlet {
         commands.put(GET + ":" + UrlHolder.DEVELOPER_PREFIX, new GetDeveloperHomePage());
 
         commands.put(GET + ":" + UrlHolder.LOGOUT_PREFIX,  new Logout());
+        commands.put(POST + ":" + UrlHolder.SIGN_UP,  new SignUp());
+        commands.put(GET + ":" + UrlHolder.SIGN_UP,  new GetSignUpPage());
 
         // customer's
         commands.put(GET + ":" + UrlHolder.ADD_STATEMENT_OF_WORK,

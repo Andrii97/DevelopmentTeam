@@ -22,11 +22,11 @@ import java.util.Optional;
 public class Login implements Command {
     private UserService userService = UserService.getInstance();
 
-    private Map<Role, String> afterLoginPathToGoByRole = new HashMap<Role, String>() {{
-        put(Role.CUSTOMER, UrlHolder.CUSTOMER_URL);// PagesHolder.CUSTOMER_HOME_PAGE);
-        put(Role.MANAGER, UrlHolder.MANAGER_URL);// PagesHolder.MANAGER_HOME_PAGE);
-        put(Role.DEVELOPER, UrlHolder.DEVELOPER_URL); // PagesHolder.DEVELOPER_HOME_PAGE);
-    }};
+    static Map<Role, String> afterLoginPathToGoByRole = new HashMap<Role, String>() {{
+        put(Role.CUSTOMER, UrlHolder.CUSTOMER_URL);
+        put(Role.MANAGER, UrlHolder.MANAGER_URL);
+        put(Role.DEVELOPER, UrlHolder.DEVELOPER_URL);
+    }}; // todo: private or role url or static or to url holder
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
