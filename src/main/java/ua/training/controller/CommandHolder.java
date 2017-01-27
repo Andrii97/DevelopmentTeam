@@ -38,13 +38,14 @@ public class CommandHolder {
 
         // customer's
         commands.put(GET + PathsHolder.ADD_STATEMENT_OF_WORK,
-                (req , resp)-> PagesHolder.ADD_STATEMENT_OF_WORK_PAGE);
+                new GetCreateStatementOfWork());
         commands.put(POST + PathsHolder.ADD_STATEMENT_OF_WORK, new CreateStatementOfWork());
         commands.put(GET + PathsHolder.STATEMENT_OF_WORK, new GetStatementOfWork());
         commands.put(GET + PathsHolder.STATEMENTS_OF_WORK_BY_CUSTOMER,
                 new GetStatementsOfWorkByCustomer());
         commands.put(POST + PathsHolder.STATEMENT_OF_WORK, new UpdateStatementOfWork());
         commands.put(GET + PathsHolder.DELETE_STATEMENT_OF_WORK, new DeleteStatementOfWork());
+        commands.put(POST + PathsHolder.ADD_TASK, new AddTaskForStatementOfWork());
 
         // manager's
         commands.put(GET + PathsHolder.USERS, new GetUsers());

@@ -23,6 +23,7 @@ public class PathsHolder {
     public static final String STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/statementOfWork/";
     public static final String DELETE_STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/delete/";
     public static final String ADD_STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/createSOW";
+    public static final String ADD_TASK = ADD_STATEMENT_OF_WORK + "/addTask";
 
     public static final String USERS = MANAGER_PREFIX + "/users";
     public static final String ADD_USER = USERS + "/addUser";

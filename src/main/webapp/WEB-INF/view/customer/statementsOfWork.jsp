@@ -30,10 +30,10 @@
                 <td><c:out value="${sow.customerId}"/></td>
                 <td><c:out value="${sow.filingDate}"/></td>
                 <td><c:out value="${sow.approved}"/></td>
-                <td><a href="${UrlHolder.BASIC}${UrlHolder.STATEMENT_OF_WORK}${sow.id}">
+                <td><a href="${PathsHolder.BASIC}${PathsHolder.STATEMENT_OF_WORK}${sow.id}">
                     <button class="btn btn-info"><fmt:message key="edit"/></button>
                 </a></td>
-                <td><a href="${UrlHolder.BASIC}${UrlHolder.DELETE_STATEMENT_OF_WORK}${sow.id}">
+                <td><a href="${PathsHolder.BASIC}${PathsHolder.DELETE_STATEMENT_OF_WORK}${sow.id}">
                     <button class="btn btn-warning"><fmt:message key="delete"/></button>
                 </a></td>
             </tr>

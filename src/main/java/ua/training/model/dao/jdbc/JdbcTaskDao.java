@@ -1,16 +1,12 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.TaskDao;
 import ua.training.model.dao.exception.DaoException;
-import ua.training.model.entity.StatementOfWork;
-import ua.training.model.entity.Task;
-import ua.training.model.entity.User;
+import ua.training.model.entity.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by andrii on 20.01.17.
@@ -18,13 +14,15 @@ import java.util.Optional;
 public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
     private static final String DELETE_TASK_BY_ID =
             "DELETE FROM task WHERE id = ? ";
-    private static final String INSERT_INTO_STATEMENT_OF_WORK = "INSERT INTO " +
+    private static final String INSERT_INTO_TASK = "INSERT INTO " +
             "task (name, description, statement_of_work_id)" +
             " VALUES ( ?, ?, ? ) ";
     private static final String SELECT_FROM_TASK = "SELECT * FROM task " +
             "JOIN task_requirements ON task.id = task_requirements.task_id ";
     private static final String WHERE_ID = "WHERE id = ? ";
-
+    private static final String INSERT_INTO_TASK_REQUIREMENTS = "INSERT INTO " +
+            "task_requirements (task_id, qualification, developers_number)" +
+            " VALUES ( ?, ?, ? ) ";
 
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -32,10 +30,12 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
     private static final String STATEMENT_OF_WORK_ID = "statement_of_work_id";
     private static final String IS_FINISHED = "is_finished";
 
+    // TaskRequirements
+    private static final String TASK_ID = "task_id";
     private static final String QUALIFICATION = "qualification";
     private static final String DEVELOPERS_NUMBER = "developers_number";
 
-    private Connection connection;
+    private static Logger logger = Logger.getLogger(JdbcTaskDao.class);
 
     public JdbcTaskDao(Connection connection) {
         super(connection);
@@ -48,7 +48,7 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     protected String getCreateQuery() {
-        return INSERT_INTO_STATEMENT_OF_WORK;
+        return INSERT_INTO_TASK;
     }
 
     @Override
@@ -100,6 +100,68 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
     }
 
     @Override
+    public List<Task> findAll() {
+        List<Task> result = new ArrayList<>();
+        try(Statement query =
+                    connection.createStatement();
+            ResultSet resultSet = query.executeQuery(getSelectAllQuery())) {
+            Map<Integer, Task> taskMap = new HashMap<>();
+            Map<Integer, List<TaskRequirements>> taskRequirementsMap = new HashMap<>();
+            while (resultSet.next()) {
+                Task task = getEntityFromResultSet(resultSet);
+                Integer taskId = task.getId();
+                taskMap.put(taskId, task);
+                taskRequirementsMap.putIfAbsent(taskId,
+                        taskRequirementsMap.put(taskId, new ArrayList<>()));
+                taskRequirementsMap.get(taskId).add(getTaskRequirementsFromResultSet(resultSet));
+            }
+            result.addAll(taskMap.values());
+            result.forEach(task -> task.setTaskRequirements(
+                    taskRequirementsMap.get(task.getId())));
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public Optional<Task> find(Integer id) {
+        Optional<Task> result = Optional.empty();
+        try(PreparedStatement query =
+                    connection.prepareStatement(getSelectByIdQuery())){
+            query.setInt( 1 , id);
+            ResultSet resultSet = query.executeQuery();
+            Task task = null; // todo
+            List<TaskRequirements> taskRequirementsList = new ArrayList<>();
+            if (resultSet.next()) {
+                task = getEntityFromResultSet(resultSet);
+                taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
+            } else {
+                return result;
+            }
+            while (resultSet.next()) {
+                taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
+            }
+            task.setTaskRequirements(taskRequirementsList);
+            result = Optional.of(task);
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        return result;
+    }
+
+    private TaskRequirements getTaskRequirementsFromResultSet(ResultSet resultSet)
+            throws SQLException {
+        return new TaskRequirements.Builder()
+                .setTaskId(resultSet.getInt(TASK_ID))
+                .setQualification(Qualification.valueOf(resultSet.getString(QUALIFICATION)))
+                .setDevelopersNumber(resultSet.getInt(DEVELOPERS_NUMBER))
+                .build();
+    }
+
+    @Override
     public List<Task> findByName(String name) {
         return null;
     }
@@ -113,4 +175,24 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
     public List<Task> findByDeveloper(User developer) {
         throw new DaoException(new UnsupportedOperationException());
     }
+
+    @Override
+    public void createTaskRequirements(TaskRequirements taskRequirements) {
+        try( PreparedStatement query =
+                     connection.prepareStatement(INSERT_INTO_TASK_REQUIREMENTS) ){
+            prepareStatementForInsertTaskRequirements(query, taskRequirements);
+            query.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+    }
+
+    private void prepareStatementForInsertTaskRequirements(PreparedStatement query,
+            TaskRequirements taskRequirements) throws SQLException {
+        query.setInt(1, taskRequirements.getTaskId());
+        query.setString(2, taskRequirements.getQualification().name());
+        query.setInt(3, taskRequirements.getDevelopersNumber());
+    }
+
 }

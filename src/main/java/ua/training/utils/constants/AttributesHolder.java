@@ -28,6 +28,11 @@ public class AttributesHolder {
     public static final String ROLE = "role";
     public static final String ROLES = "roles";
     public static final String TASKS = "tasks";
+    public static final String TASK_NAME = "taskName";
+    public static final String TASK_DESCRIPTION = "taskDescription";
+    public static final String TASK_NEEDED_JUNIORS = "taskNeededJuniors";
+    public static final String TASK_NEEDED_MIDDLES = "taskNeededMiddles";
+    public static final String TASK_NEEDED_SENIORS = "taskNeededSeniors";
 
     public static final String ERRORS = "errors";
     public static final String ERROR_MESSAGE = "system error";

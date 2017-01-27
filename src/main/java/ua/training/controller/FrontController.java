@@ -2,6 +2,7 @@ package ua.training.controller;
 
 import org.apache.log4j.Logger;
 import ua.training.controller.command.Command;
+import ua.training.controller.i18n.ErrorsMessages;
 import ua.training.controller.validator.RegExp;
 import ua.training.exception.ApplicationException;
 import ua.training.utils.constants.AttributesHolder;
@@ -63,9 +64,12 @@ public class FrontController extends HttpServlet {
         } catch (ApplicationException e) {
             request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
         } catch (Exception e) {
-            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, "I don't know");
+            logger.error(e);
+            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE,
+                    ErrorsMessages.NOT_EXCEPTED_ERROR);
         }
-        response.sendRedirect(request.getRequestURI());
+        String regex = "//" + RegExp.NUMBER; // todo: static variable in RegExp
+        response.sendRedirect(request.getRequestURI().replaceAll(regex, ""));
         logger.error(AttributesHolder.ERROR_MESSAGE);
     }
 

@@ -52,5 +52,26 @@ public class CreateStatementOfWork implements Command {
                 .setFilingDate(LocalDate.now())
                 .setCustomerId(customer.getId())
                 .build();
+        // TODO: statement of w
+//        List<TaskRequirements> taskRequirements = new ArrayList<>();
+//        taskRequirements.add(new TaskRequirements.Builder()
+//                .setQualification(Qualification.JUNIOR)
+//                .setDevelopersNumber(23)
+//                .build());
+//        Task task1 = new Task.Builder()
+//                .setDescription("Hard task")
+//                .setName("Development task")
+//                .setStatementOfWorkId(1)
+//                .setTaskRequirements(taskRequirements)
+//                .build();
+//        List<Task> tasks = new ArrayList<>();
+//        tasks.add(task1);
+//        StatementOfWork statementOfWork = new StatementOfWork.Builder()
+//                .setName("New test Project")
+//                .setCustomerId(18)
+//                .setFilingDate(LocalDate.now())
+//                .setTasks(tasks)
+//                .build();
+
     }
 }

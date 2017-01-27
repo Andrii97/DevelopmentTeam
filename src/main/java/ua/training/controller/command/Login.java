@@ -2,8 +2,7 @@ package ua.training.controller.command;
 
 import ua.training.controller.FrontController;
 import ua.training.controller.security.Md5Encryption;
-import ua.training.model.entity.Role;
-import ua.training.model.entity.User;
+import ua.training.model.entity.*;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
@@ -13,9 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by andrii on 21.01.17.

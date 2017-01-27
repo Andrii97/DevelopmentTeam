@@ -6,7 +6,7 @@ package ua.training.model.entity;
 public class TaskRequirements {
     private Integer taskId;
     private Qualification qualification;
-    private Integer Qualification;
+    private Integer developersNumber;
 
     public Integer getTaskId() {
         return taskId;
@@ -16,15 +16,19 @@ public class TaskRequirements {
         this.taskId = taskId;
     }
 
-    public ua.training.model.entity.Qualification getQualification() {
+    public Integer getDevelopersNumber() {
+        return developersNumber;
+    }
+
+    public void setDevelopersNumber(Integer developersNumber) {
+        this.developersNumber = developersNumber;
+    }
+
+    public Qualification getQualification() {
         return qualification;
     }
 
-    public void setQualification(Integer qualification) {
-        Qualification = qualification;
-    }
-
-    public void setQualification(ua.training.model.entity.Qualification qualification) {
+    public void setQualification(Qualification qualification) {
         this.qualification = qualification;
     }
 
@@ -37,14 +41,14 @@ public class TaskRequirements {
 
         if (taskId != null ? !taskId.equals(that.taskId) : that.taskId != null) return false;
         if (qualification != that.qualification) return false;
-        return Qualification != null ? Qualification.equals(that.Qualification) : that.Qualification == null;
+        return developersNumber != null ? developersNumber.equals(that.developersNumber) : that.developersNumber == null;
     }
 
     @Override
     public int hashCode() {
         int result = taskId != null ? taskId.hashCode() : 0;
         result = 31 * result + (qualification != null ? qualification.hashCode() : 0);
-        result = 31 * result + (Qualification != null ? Qualification.hashCode() : 0);
+        result = 31 * result + (developersNumber != null ? developersNumber.hashCode() : 0);
         return result;
     }
 
@@ -53,7 +57,30 @@ public class TaskRequirements {
         return "TaskRequirements{" +
                 "taskId=" + taskId +
                 ", qualification=" + qualification +
-                ", Qualification=" + Qualification +
+                ", developersNumber=" + developersNumber +
                 '}';
+    }
+
+    public static class Builder{
+        TaskRequirements instance = new TaskRequirements();
+
+        public Builder setTaskId(Integer taskId) {
+            instance.taskId = taskId;
+            return this;
+        }
+
+        public Builder setQualification(Qualification qualification) {
+            instance.qualification = qualification;
+            return this;
+        }
+
+        public Builder setDevelopersNumber(Integer developersNumber) {
+            instance.developersNumber = developersNumber;
+            return this;
+        }
+
+        public TaskRequirements build() {
+            return instance;
+        }
     }
 }

@@ -1,10 +1,15 @@
 package ua.training.model.service;
 
+import ua.training.controller.i18n.ErrorsMessages;
 import ua.training.model.dao.DaoConnection;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.StatementOfWorkDao;
+import ua.training.model.dao.TaskDao;
 import ua.training.model.entity.StatementOfWork;
+import ua.training.model.entity.Task;
+import ua.training.model.entity.TaskRequirements;
 import ua.training.model.entity.User;
+import ua.training.model.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +31,23 @@ public class StatementOfWorkService {
     public void create(StatementOfWork statementOfWork){
         try( DaoConnection connection = daoFactory.getConnection() ){
             StatementOfWorkDao dao = daoFactory.createStatementOfWorkDao(connection);
+            connection.begin();
             dao.create(statementOfWork);
-            // todo add task
+            List<Task> tasks = statementOfWork.getTasks();
+            if (tasks == null || tasks.isEmpty()) {
+                throw new ServiceException(ErrorsMessages.SERVICE_ERROR_ADD_SOW_TASKS_NOT_FOUND);
+            }
+            tasks.forEach(task -> task.setStatementOfWorkId(statementOfWork.getId()));
+            tasks.forEach(task -> createTask(task, connection));
+            connection.commit();
         }
+    }
+
+    private void createTask(Task task, DaoConnection connection) {
+        TaskDao dao = daoFactory.createTaskDao(connection);
+        dao.create(task);
+        task.getTaskRequirements().forEach(requirements -> requirements.setTaskId(task.getId()));
+        task.getTaskRequirements().forEach(dao::createTaskRequirements);
     }
 
     public Optional<StatementOfWork> getById(int statementOfWorkId) {

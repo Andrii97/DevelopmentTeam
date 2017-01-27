@@ -14,7 +14,6 @@ import ua.training.utils.constants.PathsHolder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -32,17 +31,10 @@ public class SignUp implements Command {
         if (userValidator.validate(user, errors)) {
             user.setPassword(Md5Encryption.encrypt(user.getPassword()));
             userService.create(user);
-
-            // update session
-            HttpSession session = request.getSession();
-            session.setAttribute(AttributesHolder.USER, user);
-
+            request.getSession().setAttribute(AttributesHolder.USER, user);
             // redirect to profile
             response.sendRedirect(Login.afterLoginPathToGoByRole.get(user.getRole()));
             return FrontController.REDIRECT;
-//            // todo: user exist
-//            errors.addMessage(AttributesHolder.EMAIL, ErrorsMessages.USER_EXIST);
-//            errors.setResult(false);
         }
         user.setPassword(null);
         request.getSession().setAttribute(AttributesHolder.USER, user);
