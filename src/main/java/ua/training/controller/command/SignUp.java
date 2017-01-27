@@ -30,9 +30,7 @@ public class SignUp implements Command {
         Errors errors = new Errors();
         System.out.println(user);
         if (userValidator.validate(user, errors)) {
-            // generate hash password
             user.setPassword(Md5Encryption.encrypt(user.getPassword()));
-
             userService.create(user);
 
             // update session

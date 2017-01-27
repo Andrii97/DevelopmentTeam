@@ -11,7 +11,9 @@ public class ErrorsMessages {
     public static final String ROLE_INVALID = "role.invalid";
     public static final String PASSWORD_INVALID = "password.invalid";
     public static final String INVALID = "invalid";
-    public static final String USER_EXIST = "user.exist";
-    public static final String DAO_ERROR = "error.dao";
 
+    public static final String DAO_ERROR = "error.dao";
+    public static final String SERVICE_ERROR = "error.service";
+    public static final String SERVICE_ERROR_USER_NOT_FOUND = "error.service.user.not.found";
+    public static final String SERVICE_ERROR_USER_EXIST = "error.service.user.exist";
 }

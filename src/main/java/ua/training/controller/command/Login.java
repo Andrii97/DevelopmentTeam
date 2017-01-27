@@ -36,14 +36,11 @@ public class Login implements Command {
         String email = request.getParameter(AttributesHolder.EMAIL);
         String password = request.getParameter(AttributesHolder.PASSWORD);
         if( email != null && password != null ){
-            Optional<User> user;
             password = Md5Encryption.encrypt(password);
-            user = userService.login(email, password);
-            user.ifPresent(person -> request
-                    .getSession()
-                    .setAttribute(AttributesHolder.USER, person));
-            Role role = user.map(User::getRole).orElseThrow(RuntimeException::new);
-            pageToGo = afterLoginPathToGoByRole.get(role);
+            User user = userService.login(email, password);
+            request.getSession()
+                    .setAttribute(AttributesHolder.USER, user);
+            pageToGo = afterLoginPathToGoByRole.get(user.getRole());
             response.sendRedirect(pageToGo);
             pageToGo = FrontController.REDIRECT;
         }

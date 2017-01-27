@@ -1,5 +1,7 @@
 package ua.training.exception;
 
+import ua.training.model.service.exception.ServiceException;
+
 /**
  * Created by andrii on 26.01.17.
  */
@@ -21,6 +23,11 @@ public class ApplicationException extends RuntimeException {
         this.messageKey = messageKey;
     }
 
+    protected ApplicationException addLogMessage(String logMessage) {
+        this.logMessage = logMessage;
+        return this;
+    }
+
     public String getMessageKey() {
         return messageKey;
     }
@@ -28,4 +35,5 @@ public class ApplicationException extends RuntimeException {
     public String getLogMessage() {
         return logMessage;
     }
+
 }

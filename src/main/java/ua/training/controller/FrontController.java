@@ -5,6 +5,7 @@ import ua.training.controller.command.Command;
 import ua.training.controller.validator.RegExp;
 import ua.training.exception.ApplicationException;
 import ua.training.utils.constants.AttributesHolder;
+import ua.training.utils.constants.PagesHolder;
 import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
@@ -46,21 +47,36 @@ public class FrontController extends HttpServlet {
         logger.debug("KEY = " + commandKey);
         Command command = commandHolder.getCommand(commandKey);
         logger.debug(command);
+        checkIfErrorIsPresent(request);
+        executeCommand(request, response, command);
+    }
+
+    private void executeCommand(HttpServletRequest request, HttpServletResponse response, Command command) throws IOException {
         try{
             String path = command.execute(request, response);
-            if(isRedirected(path)) {
+            if(!isRedirected(path)) {
                 request.getRequestDispatcher(path).forward(request, response);
+            } else {
+                request.removeAttribute(AttributesHolder.ERROR_MESSAGE);
             }
+            return;
         } catch (ApplicationException e) {
-            request.setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
+            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
         } catch (Exception e) {
-            request.setAttribute(AttributesHolder.ERROR_MESSAGE, "I don't know");
+            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, "I don't know");
         }
+        response.sendRedirect(request.getRequestURI());
         logger.error(AttributesHolder.ERROR_MESSAGE);
     }
 
+    private void checkIfErrorIsPresent(HttpServletRequest request) {
+        request.setAttribute(AttributesHolder.ERROR_MESSAGE,
+                request.getSession().getAttribute(AttributesHolder.ERROR_MESSAGE));
+        request.getSession().removeAttribute(AttributesHolder.ERROR_MESSAGE);
+    }
+
     private boolean isRedirected(String path) {
-        return !REDIRECT.equals(path);
+        return REDIRECT.equals(path);
     }
 
     private String getPath(HttpServletRequest request) {

@@ -1,11 +1,14 @@
 package ua.training.model.service;
 
+import ua.training.controller.i18n.ErrorsMessages;
 import ua.training.model.dao.DaoConnection;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.DeveloperDao;
 import ua.training.model.dao.UserDao;
 import ua.training.model.entity.Developer;
 import ua.training.model.entity.User;
+import ua.training.model.service.exception.ServiceException;
+import ua.training.utils.constants.LoggerMessages;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,19 +27,35 @@ public class UserService {
         return Holder.INSTANCE;
     }
 
-    public Optional<User> login(String email, String password){
+    public User login(String email, String password){
         try( DaoConnection connection = daoFactory.getConnection() ){
             UserDao dao = daoFactory.createUserDao(connection);
             return dao.findByEmail(email)
-                    .filter(user -> password.equals(user.getPassword()));
+                    .filter(user -> password.equals(user.getPassword()))
+                    .orElseThrow(() -> new ServiceException(
+                            ErrorsMessages.SERVICE_ERROR_USER_NOT_FOUND)
+                            .addLogMessage(String.format(
+                                    LoggerMessages.SERVICE_ERROR_USER_NOT_FOUND,
+                                    email, password)));
         }
     }
 
     public void create(User user) {
         try( DaoConnection connection = daoFactory.getConnection() ){
             UserDao dao = daoFactory.createUserDao(connection);
+            connection.begin();
+            Optional<User> existingUser = dao.findByEmail(user.getEmail());
+            checkIfUserAlreadyExist(existingUser);
             dao.create(user);
+            connection.commit();
         }
+    }
+
+    private void checkIfUserAlreadyExist(Optional<User> existingUser) {
+        existingUser.ifPresent(user -> {throw new ServiceException(
+                ErrorsMessages.SERVICE_ERROR_USER_EXIST)
+                .addLogMessage(String
+                        .format(LoggerMessages.SERVICE_ERROR_USER_EXIST, user.getEmail()));});
     }
 
     public void createDeveloper(Developer developer) {

@@ -56,7 +56,7 @@
 <c:if test="${requestScope[AttributesHolder.ERROR_MESSAGE] != null}">
     <div class="container">
         <div class="alrt alert-danger">
-            <fmt:message key="${AttributesHolder.ERROR_MESSAGE}"/>
+            <fmt:message key="${requestScope[AttributesHolder.ERROR_MESSAGE]}"/>
         </div>
     </div>
 </c:if>
