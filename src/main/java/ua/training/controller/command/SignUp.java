@@ -1,7 +1,7 @@
 package ua.training.controller.command;
 
+import ua.training.config.DevelopmentTeamConfig;
 import ua.training.controller.FrontController;
-import ua.training.controller.security.Md5Encryption;
 import ua.training.controller.validator.Errors;
 import ua.training.controller.validator.UserValidator;
 import ua.training.controller.validator.Validator;
@@ -27,13 +27,11 @@ public class SignUp implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = buildUser(request);
         Errors errors = new Errors();
-        System.out.println(user);
         if (userValidator.validate(user, errors)) {
-            user.setPassword(Md5Encryption.encrypt(user.getPassword()));
             userService.create(user);
             request.getSession().setAttribute(AttributesHolder.USER, user);
             // redirect to profile
-            response.sendRedirect(Login.afterLoginPathToGoByRole.get(user.getRole()));
+            response.sendRedirect(DevelopmentTeamConfig.roleUrlMap.get(user.getRole()));
             return FrontController.REDIRECT;
         }
         user.setPassword(null);

@@ -1,5 +1,6 @@
 package ua.training.model.service;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import ua.training.controller.i18n.ErrorsMessages;
 import ua.training.model.dao.DaoConnection;
 import ua.training.model.dao.DaoFactory;
@@ -28,19 +29,21 @@ public class UserService {
     }
 
     public User login(String email, String password){
+        String passwordHash = encrypt(password);
         try( DaoConnection connection = daoFactory.getConnection() ){
             UserDao dao = daoFactory.createUserDao(connection);
             return dao.findByEmail(email)
-                    .filter(user -> password.equals(user.getPassword()))
+                    .filter(user -> passwordHash.equals(user.getPassword()))
                     .orElseThrow(() -> new ServiceException(
                             ErrorsMessages.SERVICE_ERROR_USER_NOT_FOUND)
                             .addLogMessage(String.format(
                                     LoggerMessages.SERVICE_ERROR_USER_NOT_FOUND,
-                                    email, password)));
+                                    email, passwordHash)));
         }
     }
 
     public void create(User user) {
+        user.setPassword(encrypt(user.getPassword()));
         try( DaoConnection connection = daoFactory.getConnection() ){
             UserDao dao = daoFactory.createUserDao(connection);
             connection.begin();
@@ -49,6 +52,10 @@ public class UserService {
             dao.create(user);
             connection.commit();
         }
+    }
+
+    private String encrypt(String st) {
+        return DigestUtils.md5Hex(st);
     }
 
     private void checkIfUserAlreadyExist(Optional<User> existingUser) {

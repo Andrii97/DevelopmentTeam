@@ -15,6 +15,7 @@ import java.util.Optional;
 public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
     protected Connection connection;
     private static Logger logger = Logger.getLogger(AbstractJdbcDao.class);
+
     public AbstractJdbcDao(Connection connection) {
         this.connection = connection;
     }
@@ -119,7 +120,7 @@ public abstract class AbstractJdbcDao<E> implements GenericDao<E> {
                 setIdForEntity(entity, keys.getInt(1));
             }
         } catch (SQLException e) {
-            logger.info(e);
+            logger.error(e);
             throw new DaoException(e);
         }
     }

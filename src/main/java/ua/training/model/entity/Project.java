@@ -12,7 +12,7 @@ public class Project {
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer managerId;
-    private Integer bill; // TODO : to long
+    private Long bill;
 
     public Integer getId() {
         return id;
@@ -62,11 +62,11 @@ public class Project {
         this.managerId = managerId;
     }
 
-    public Integer getBill() {
+    public Long getBill() {
         return bill;
     }
 
-    public void setBill(Integer bill) {
+    public void setBill(Long bill) {
         this.bill = bill;
     }
 
@@ -145,7 +145,7 @@ public class Project {
             return this;
         }
 
-        public Builder setBill(Integer bill) {
+        public Builder setBill(Long bill) {
             instance.bill = bill;
             return this;
         }

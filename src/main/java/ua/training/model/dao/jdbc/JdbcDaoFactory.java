@@ -1,23 +1,19 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.*;
 import ua.training.model.dao.exception.DaoException;
 
-import java.io.InputStream;
 import java.sql.Connection;
-//import com.mysql.jdbc.Driver;
-
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  * Created by andrii on 18.01.17.
  */
 public class JdbcDaoFactory extends DaoFactory{
-    private static final String DB_URL = "url";
+    private static Logger logger = Logger.getLogger(JdbcDaoFactory.class);
     private DataSource dataSource;
 
     public JdbcDaoFactory() {
@@ -26,6 +22,7 @@ public class JdbcDaoFactory extends DaoFactory{
             dataSource = (DataSource) ic.lookup("java:comp/env/jdbc/development_team");
 
         }catch(Exception e){
+            logger.error(e);
             throw new DaoException(e);
         }
     }
@@ -35,6 +32,7 @@ public class JdbcDaoFactory extends DaoFactory{
         try {
             return new JdbcDaoConnection(dataSource.getConnection());
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
     }

@@ -1,5 +1,6 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.UserDao;
 import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.Qualification;
@@ -31,6 +32,8 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
     private static final String ROLE = "role";
     private static final String IS_ACTIVE = "is_active";
 
+    private static Logger logger = Logger.getLogger(JdbcUserDao.class);
+
     public JdbcUserDao(Connection connection) {
         super(connection);
     }
@@ -47,9 +50,8 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     protected String getUpdateQuery() {
-        return null;
+        throw new UnsupportedOperationException();
     }
-
     @Override
     protected String getDeleteQuery() {
         return DELETE_USER_BY_ID;
@@ -88,7 +90,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, User entity) {
-        // toDo
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -98,12 +100,12 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     public List<User> findByName(String name) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<User> findByQualification(Qualification qualification) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public Optional<User> findByEmail(String email) {
@@ -118,6 +120,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
 

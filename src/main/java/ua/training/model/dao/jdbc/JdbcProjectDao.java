@@ -1,5 +1,6 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.ProjectDao;
 import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.Project;
@@ -47,7 +48,7 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
 
     @Override
     protected String getUpdateQuery() {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -64,7 +65,7 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
                 .setEndDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(END_DATE)))
                 .setStatementOfWorkId(resultSet.getInt(STATEMENT_OF_WORK_ID))
                 .setManagerId(resultSet.getInt(MANAGER_ID))
-                .setBill(resultSet.getInt(BILL))
+                .setBill(resultSet.getLong(BILL))
                 .build();
     }
 
@@ -81,12 +82,12 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
         query.setDate(3, ConvertDate.convertLocalDateToDate(entity.getStartDate()));
         query.setDate(4 , ConvertDate.convertLocalDateToDate(entity.getEndDate()));
         query.setInt(5 , entity.getManagerId());
-        query.setInt(6, entity.getBill());
+        query.setLong(6, entity.getBill());
     }
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, Project entity) {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override

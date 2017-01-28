@@ -1,5 +1,6 @@
 package ua.training.model.dao;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.exception.DaoException;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ public abstract class DaoFactory {
     private static final String DB_FACTORY_CLASS = "factory.class";
     private static  DaoFactory instance;
 
+    private static Logger logger = Logger.getLogger(DaoFactory.class);
+
     public static DaoFactory getInstance(){
         if( instance == null) {
             try {
@@ -36,6 +39,7 @@ public abstract class DaoFactory {
 
             } catch (IOException | IllegalAccessException|
                     InstantiationException |ClassNotFoundException e ) {
+                logger.error(e);
                 throw new DaoException(e);
             }
         }

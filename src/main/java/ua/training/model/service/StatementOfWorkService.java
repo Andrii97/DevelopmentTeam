@@ -33,11 +33,12 @@ public class StatementOfWorkService {
             StatementOfWorkDao dao = daoFactory.createStatementOfWorkDao(connection);
             connection.begin();
             dao.create(statementOfWork);
+            statementOfWork.setStatementOfWorkIdForTasks();
             List<Task> tasks = statementOfWork.getTasks();
-            if (tasks == null || tasks.isEmpty()) {
+            if (tasks == null || tasks.isEmpty()) { // todo not check null // check in builder
+                // todo check in validator
                 throw new ServiceException(ErrorsMessages.SERVICE_ERROR_ADD_SOW_TASKS_NOT_FOUND);
             }
-            tasks.forEach(task -> task.setStatementOfWorkId(statementOfWork.getId()));
             tasks.forEach(task -> createTask(task, connection));
             connection.commit();
         }
@@ -46,7 +47,7 @@ public class StatementOfWorkService {
     private void createTask(Task task, DaoConnection connection) {
         TaskDao dao = daoFactory.createTaskDao(connection);
         dao.create(task);
-        task.getTaskRequirements().forEach(requirements -> requirements.setTaskId(task.getId()));
+        task.setTaskIdForTaskRequirements();
         task.getTaskRequirements().forEach(dao::createTaskRequirements);
     }
 

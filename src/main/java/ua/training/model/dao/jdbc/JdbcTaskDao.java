@@ -19,6 +19,7 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
             " VALUES ( ?, ?, ? ) ";
     private static final String SELECT_FROM_TASK = "SELECT * FROM task " +
             "JOIN task_requirements ON task.id = task_requirements.task_id ";
+    private static final String ORDER_BY_ID = "ORDER BY task.id ";
     private static final String WHERE_ID = "WHERE id = ? ";
     private static final String INSERT_INTO_TASK_REQUIREMENTS = "INSERT INTO " +
             "task_requirements (task_id, qualification, developers_number)" +
@@ -43,7 +44,7 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     protected String getSelectAllQuery() {
-        return SELECT_FROM_TASK;
+        return SELECT_FROM_TASK + ORDER_BY_ID;
     }
 
     @Override
@@ -91,7 +92,7 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, Task entity) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -105,19 +106,25 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
         try(Statement query =
                     connection.createStatement();
             ResultSet resultSet = query.executeQuery(getSelectAllQuery())) {
-            Map<Integer, Task> taskMap = new HashMap<>();
-            Map<Integer, List<TaskRequirements>> taskRequirementsMap = new HashMap<>();
-            while (resultSet.next()) {
-                Task task = getEntityFromResultSet(resultSet);
-                Integer taskId = task.getId();
-                taskMap.put(taskId, task);
-                taskRequirementsMap.putIfAbsent(taskId,
-                        taskRequirementsMap.put(taskId, new ArrayList<>()));
-                taskRequirementsMap.get(taskId).add(getTaskRequirementsFromResultSet(resultSet));
+            if(resultSet.next()) {
+                Task currentTask = getEntityFromResultSet(resultSet);
+                List<TaskRequirements> taskRequirementsList = new ArrayList<>();
+                taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
+                while(resultSet.next()) {
+                    Task nextTask = getEntityFromResultSet(resultSet);
+                    if(currentTask.getId().equals(nextTask.getId())) {
+                        taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
+                    } else {
+                        currentTask.setTaskRequirements(taskRequirementsList);
+                        result.add(currentTask);
+                        currentTask = nextTask;
+                        taskRequirementsList = new ArrayList<>();
+                        taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
+                    }
+                }
+                currentTask.setTaskRequirements(taskRequirementsList);
+                result.add(currentTask);
             }
-            result.addAll(taskMap.values());
-            result.forEach(task -> task.setTaskRequirements(
-                    taskRequirementsMap.get(task.getId())));
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
@@ -132,19 +139,16 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
                     connection.prepareStatement(getSelectByIdQuery())){
             query.setInt( 1 , id);
             ResultSet resultSet = query.executeQuery();
-            Task task = null; // todo
-            List<TaskRequirements> taskRequirementsList = new ArrayList<>();
             if (resultSet.next()) {
-                task = getEntityFromResultSet(resultSet);
+                Task task = getEntityFromResultSet(resultSet);
+                List<TaskRequirements> taskRequirementsList = new ArrayList<>();
                 taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
-            } else {
-                return result;
+                while (resultSet.next()) {
+                    taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
+                }
+                task.setTaskRequirements(taskRequirementsList);
+                result = Optional.of(task);
             }
-            while (resultSet.next()) {
-                taskRequirementsList.add(getTaskRequirementsFromResultSet(resultSet));
-            }
-            task.setTaskRequirements(taskRequirementsList);
-            result = Optional.of(task);
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
@@ -163,17 +167,17 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     public List<Task> findByName(String name) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Task> findByStatementOfWork(StatementOfWork statementOfWork) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Task> findByDeveloper(User developer) {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override

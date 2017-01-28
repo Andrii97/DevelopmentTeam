@@ -1,5 +1,6 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.DaoConnection;
 import ua.training.model.dao.exception.DaoException;
 
@@ -10,6 +11,7 @@ import java.sql.SQLException;
  * Created by andrii on 20.01.17.
  */
 public class JdbcDaoConnection implements DaoConnection {
+    private static Logger logger = Logger.getLogger(JdbcDaoConnection.class);
 
     private Connection connection;
     private boolean inTransaction = false;
@@ -23,6 +25,7 @@ public class JdbcDaoConnection implements DaoConnection {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
     }
@@ -33,6 +36,7 @@ public class JdbcDaoConnection implements DaoConnection {
             connection.commit();
             inTransaction = false;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
     }
@@ -43,6 +47,7 @@ public class JdbcDaoConnection implements DaoConnection {
             connection.rollback();
             inTransaction = false;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
     }
@@ -55,6 +60,7 @@ public class JdbcDaoConnection implements DaoConnection {
         try {
             connection.close();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
     }

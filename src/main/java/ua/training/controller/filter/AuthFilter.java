@@ -1,6 +1,7 @@
 package ua.training.controller.filter;
 
 import org.apache.log4j.Logger;
+import ua.training.config.DevelopmentTeamConfig;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.utils.constants.AttributesHolder;
@@ -12,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by andrii on 24.01.17.
@@ -22,14 +21,8 @@ public class AuthFilter implements Filter {
 
     private static Logger logger = Logger.getLogger(AuthFilter.class);
 
-    private Map<Role, String> roleUrlMap;
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        roleUrlMap = new HashMap<>();
-        roleUrlMap.put(Role.MANAGER, PathsHolder.MANAGER_URL);
-        roleUrlMap.put(Role.CUSTOMER, PathsHolder.CUSTOMER_URL);
-        roleUrlMap.put(Role.DEVELOPER, PathsHolder.DEVELOPER_URL);
     }
 
     @Override
@@ -48,7 +41,7 @@ public class AuthFilter implements Filter {
     }
 
     private String getHomeUrl(Role role) {
-        return role == null ? PathsHolder.LOGIN : roleUrlMap.get(role);
+        return role == null ? PathsHolder.LOGIN : DevelopmentTeamConfig.roleUrlMap.get(role);
     }
 
     private Role getUserRole(HttpServletRequest request) {
@@ -63,7 +56,7 @@ public class AuthFilter implements Filter {
     }
 
     private boolean checkUriByRole(String uri, Role role) {
-        return role != null && uri.startsWith(roleUrlMap.get(role));
+        return role != null && uri.startsWith(DevelopmentTeamConfig.roleUrlMap.get(role));
     }
 
     @Override

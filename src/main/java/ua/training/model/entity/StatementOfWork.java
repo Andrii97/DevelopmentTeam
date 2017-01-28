@@ -62,6 +62,10 @@ public class StatementOfWork {
         isApproved = approved;
     }
 
+    public void setStatementOfWorkIdForTasks() {
+        tasks.forEach(task -> task.setStatementOfWorkId(getId()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

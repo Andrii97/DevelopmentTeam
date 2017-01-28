@@ -61,6 +61,10 @@ public class Task {
         this.taskRequirements = taskRequirements;
     }
 
+    public void setTaskIdForTaskRequirements() {
+        taskRequirements.forEach(requirements -> requirements.setTaskId(getId()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

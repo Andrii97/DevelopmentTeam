@@ -1,5 +1,6 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.StatementOfWorkDao;
 import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.StatementOfWork;
@@ -35,6 +36,8 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
     private static final String CUSTOMER_ID = "customer_id";
     // todo task
     private static final String IS_APPROVED = "is_approved";
+
+    private static Logger logger = Logger.getLogger(JdbcStatementOfWorkDao.class);
 
     public JdbcStatementOfWorkDao(Connection connection) {
         super(connection);
@@ -111,6 +114,7 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
                 result.add( getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
         return result;

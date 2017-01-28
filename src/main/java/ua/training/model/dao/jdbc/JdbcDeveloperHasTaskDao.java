@@ -20,8 +20,6 @@ import java.util.Optional;
 public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
         implements DeveloperHasTaskDao {
 
-    private static Logger logger = Logger.getLogger(JdbcDeveloperHasTaskDao.class);
-
     private static final String INSERT_INTO_DEVELOPER_HAS_TASK = "INSERT INTO " +
             "developer_has_task (developer_id, task_id, project_id, elapsed_time)" +
             " VALUES ( ?, ?, ?, ? ) ";
@@ -33,6 +31,8 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
     public static final String TASK_ID = "task_id";
     public static final String PROJECT_ID = "project_id";
     public static final String ELAPSED_TIME = "elapsed_time";
+
+    private static Logger logger = Logger.getLogger(JdbcDeveloperHasTaskDao.class);
 
     public JdbcDeveloperHasTaskDao(Connection connection) {
         super(connection);
@@ -50,12 +50,12 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
 
     @Override
     protected String getUpdateQuery() {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected String getDeleteQuery() {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -84,21 +84,21 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, DeveloperHasTask entity) {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<DeveloperHasTask> find(Integer id) {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected String getSelectByIdQuery() {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<Task> findByDeveloperId(Integer id) {
+    public List<Task> findByDeveloperId(Integer id) { // todo
         List<DeveloperHasTask> result = new ArrayList<>();
         List<Task> tasks = new ArrayList<>();
         try(PreparedStatement query =
@@ -114,8 +114,6 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
             logger.error(e);
             throw new DaoException(e);
         }
-        logger.debug(result.stream().toString());
-        logger.debug(tasks.toString());
         return tasks;
     }
 }

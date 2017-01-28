@@ -3,7 +3,6 @@ package ua.training.controller.command.manager;
 import org.apache.log4j.Logger;
 import ua.training.controller.FrontController;
 import ua.training.controller.command.Command;
-import ua.training.controller.security.Md5Encryption;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
@@ -43,7 +42,7 @@ public class AddNewUser implements Command {
                 .setMiddleName(middleName)
                 .setLastName(lastName)
                 .setEmail(email)
-                .setPassword(Md5Encryption.encrypt(password))
+                .setPassword(password)
                 .setRole(role)
                 .build();
     }

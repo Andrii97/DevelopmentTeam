@@ -1,5 +1,6 @@
 package ua.training.model.dao.jdbc;
 
+import org.apache.log4j.Logger;
 import ua.training.model.dao.DeveloperDao;
 import ua.training.model.dao.exception.DaoException;
 import ua.training.model.entity.Developer;
@@ -38,6 +39,8 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
     private static final String PASSWORD = "password";
     private static final String ROLE = "role";
     private static final String IS_ACTIVE = "is_active";
+
+    private static Logger logger = Logger.getLogger(AbstractJdbcDao.class);
 
     public JdbcDeveloperDao(Connection connection) {
         super(connection);
@@ -94,7 +97,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement query, Developer entity) {
-        throw new DaoException(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -113,6 +116,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
                 result.add( getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
         return result;
