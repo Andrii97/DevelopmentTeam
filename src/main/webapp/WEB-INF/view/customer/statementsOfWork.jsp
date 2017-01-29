@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="ua.training.utils.constants.PathsHolder" %>
+<%@ page import="ua.training.utils.constants.AttributesHolder" %>
 <html>
 <head>
     <title>statementOfWork</title>
@@ -17,17 +18,19 @@
         <tr>
             <th><fmt:message key="statement.of.work.id"/></th>
             <th><fmt:message key="statement.of.work.name"/></th>
-            <th><fmt:message key="statement.of.work.customerId"/></th>
+            <th><fmt:message key="statement.of.work.customer"/></th>
             <th><fmt:message key="statement.of.work.filling.date"/></th>
             <th><fmt:message key="statement.of.work.is.approved"/></th>
             <th><fmt:message key="edit"/></th>
             <th><fmt:message key="delete"/></th>
         </tr>
-        <c:forEach var="sow" items="${statementsOfWork}">
+        <c:forEach var="sow" items="${requestScope[AttributesHolder.STATEMENTS_OF_WORK]}">
             <tr>
                 <td><c:out value="${sow.id}"/></td>
                 <td><c:out value="${sow.name}"/></td>
-                <td><c:out value="${sow.customerId}"/></td>
+                <td>
+                    <c:out value="${sow.customer.firstName} ${sow.customer.middleName} ${sow.customer.lastName}"/>
+                </td>
                 <td><c:out value="${sow.filingDate}"/></td>
                 <td><c:out value="${sow.approved}"/></td>
                 <td><a href="${PathsHolder.BASIC}${PathsHolder.STATEMENT_OF_WORK}${sow.id}">

@@ -13,6 +13,9 @@
                     <li><a href="${PathsHolder.MANAGER_URL}"><fmt:message key="menu.home.page"/></a></li>
                     <li><a href="${PathsHolder.BASIC}${PathsHolder.USERS}"><fmt:message key="users"/></a></li>
                     <li><a href="${PathsHolder.BASIC}${PathsHolder.PROJECTS}"><fmt:message key="manager.projects"/></a></li>
+                    <li><a href="${PathsHolder.BASIC}${PathsHolder.STATEMENTS_OF_WORK}">
+                        <fmt:message key="manager.menu.statements.of.work"/>
+                    </a></li>
                 </c:if>
                 <c:if test="${sessionScope[AttributesHolder.USER].role eq Role.CUSTOMER}">
                     <li><a href="${PathsHolder.CUSTOMER_URL}"><fmt:message key="menu.home.page"/></a></li>

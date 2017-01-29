@@ -23,19 +23,21 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
             "statement_of_work (name, filing_date, customer_id)" +
             " VALUES ( ?, ?, ? ) "; // insert task? is_approved?
     private static final String SELECT_FROM_STATEMENT_OF_WORK =
-            "SELECT * FROM statement_of_work ";
+            "SELECT * FROM statement_of_work JOIN user ON user.id = statement_of_work.customer_id ";
+    public static final String JOIN_ON_TASK =
+            "JOIN task ON task. =  JOIN task_requirements ON task.id = task_requirements.task_id ";
     private static final String UPDATE_STATEMENT_OF_WORK_BY_ID =
             "UPDATE statement_of_work SET name = ?,  filing_date = ?, " +
                     "is_approved = ? WHERE id = ? ";
-    private static final String WHERE_ID = "WHERE id = ? ";
-    private static final String WHERE_CUSTOMER_ID = "WHERE customer_id = ? ";
+    private static final String WHERE_ID = "WHERE statement_of_work.id = ? ";
+    private static final String WHERE_CUSTOMER_ID = "WHERE statement_of_work.customer_id = ? ";
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String FILLING_DATE = "filing_date";
-    private static final String CUSTOMER_ID = "customer_id";
+    private static final String ID = "statement_of_work.id";
+    private static final String NAME = "statement_of_work.name";
+    private static final String FILLING_DATE = "statement_of_work.filing_date";
+    private static final String CUSTOMER_ID = "statement_of_work.customer_id";
     // todo task
-    private static final String IS_APPROVED = "is_approved";
+    private static final String IS_APPROVED = "statement_of_work.is_approved";
 
     private static Logger logger = Logger.getLogger(JdbcStatementOfWorkDao.class);
 
@@ -65,11 +67,15 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
 
     @Override
     protected StatementOfWork getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        return getStatementOfWorkFromResultSet(resultSet);
+    }
+
+    static StatementOfWork getStatementOfWorkFromResultSet(ResultSet resultSet) throws SQLException {
         return new StatementOfWork.Builder()
                 .setId(resultSet.getInt(ID))
                 .setName(resultSet.getString(NAME))
                 .setFilingDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(FILLING_DATE)))
-                .setCustomerId(resultSet.getInt(CUSTOMER_ID))
+                .setCustomer(JdbcUserDao.getUserFromResultSet(resultSet))
                 .setApproved(resultSet.getBoolean(IS_APPROVED))
                 .build();
     }
@@ -84,7 +90,7 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
             throws SQLException {
         query.setString(1 , entity.getName());
         query.setDate(2 , ConvertDate.convertLocalDateToDate(entity.getFilingDate()));
-        query.setInt(3 , entity.getCustomerId());
+        query.setInt(3 , entity.getCustomer().getId());
 //        query.setBoolean(4, entity.getApproved());
     }
 

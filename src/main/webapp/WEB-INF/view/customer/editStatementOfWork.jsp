@@ -16,7 +16,7 @@
                 <input type="text" name="${AttributesHolder.NAME}" value="${statementOfWork.name}"/><br/>
             </div>
             <div class="block">
-                <label><fmt:message key="statement.of.work.customerId"/></label>
+                <label><fmt:message key="statement.of.work.customer"/></label>
                 <input type="number" readonly name="${AttributesHolder.CUSTOMER_ID}" value="${statementOfWork.customerId}"><br/>
             </div>
             <div class="block">

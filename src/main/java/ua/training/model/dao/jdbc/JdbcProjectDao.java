@@ -21,16 +21,18 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
     private static final String INSERT_INTO_PROJECT = "INSERT INTO " +
             "project (name, statement_of_work_id, start_date, end_date, manager_id, bill)" +
             " VALUES ( ?, ?, ?, ?, ?, ? ) ";
-    private static final String SELECT_FROM_PROJECT = "SELECT * FROM project ";
-    private static final String WHERE_ID = "WHERE id = ? ";
+    private static final String SELECT_FROM_PROJECT = "SELECT * FROM project " +
+            "JOIN user ON project.manager_id = user.id " +
+            "JOIN statement_of_work ON statement_of_work.id = project.statement_of_work_id ";
+    private static final String WHERE_ID = "WHERE project.id = ? ";
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String STATEMENT_OF_WORK_ID = "statement_of_work_id";
-    private static final String START_DATE = "start_date";
-    private static final String END_DATE = "end_date";
-    private static final String MANAGER_ID = "manager_id";
-    private static final String BILL = "bill";
+    private static final String ID = "project.id";
+    private static final String NAME = "project.name";
+    private static final String STATEMENT_OF_WORK_ID = "project.statement_of_work_id";
+    private static final String START_DATE = "project.start_date";
+    private static final String END_DATE = "project.end_date";
+    private static final String MANAGER_ID = "project.manager_id";
+    private static final String BILL = "project.bill";
 
     public JdbcProjectDao(Connection connection) {
         super(connection);
@@ -63,8 +65,8 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
                 .setName(resultSet.getString(NAME))
                 .setStartDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(START_DATE)))
                 .setEndDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(END_DATE)))
-                .setStatementOfWorkId(resultSet.getInt(STATEMENT_OF_WORK_ID))
-                .setManagerId(resultSet.getInt(MANAGER_ID))
+                .setStatementOfWork(JdbcStatementOfWorkDao.getStatementOfWorkFromResultSet(resultSet))
+                .setManager(JdbcUserDao.getUserFromResultSet(resultSet))
                 .setBill(resultSet.getLong(BILL))
                 .build();
     }
@@ -78,10 +80,10 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
     protected void prepareStatementForInsert(PreparedStatement query, Project entity)
             throws SQLException {
         query.setString(1 , entity.getName());
-        query.setInt(2, entity.getStatementOfWorkId());
+        query.setInt(2, entity.getStatementOfWork().getId());
         query.setDate(3, ConvertDate.convertLocalDateToDate(entity.getStartDate()));
         query.setDate(4 , ConvertDate.convertLocalDateToDate(entity.getEndDate()));
-        query.setInt(5 , entity.getManagerId());
+        query.setInt(5 , entity.getManager().getId());
         query.setLong(6, entity.getBill());
     }
 

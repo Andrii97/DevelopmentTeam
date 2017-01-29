@@ -21,7 +21,7 @@ public class PagesHolder {
             "/addStatementOfWork.jsp";
 
 
-    public static final String PROJECTS = "projects.jsp";
+    public static final String PROJECTS = "/projects.jsp";
     public static final String PROJECTS_PAGE = PREFIX + PathsHolder.MANAGER_PREFIX + PROJECTS;
 
     // manager's pages
@@ -29,6 +29,10 @@ public class PagesHolder {
     public static final String USERS_PAGE = PREFIX + PathsHolder.MANAGER_PREFIX + USERS;
     public static final String MANAGER_HOME_PAGE = PREFIX + PathsHolder.MANAGER_PREFIX + PROFILE;
     public static final String ADD_USER_PAGE = PREFIX + PathsHolder.MANAGER_PREFIX + "/addUser.jsp";
+    public static final String MANAGER_STATEMENTS_OF_WORK_PAGE = PREFIX +
+            PathsHolder.MANAGER_PREFIX + "/statementsOfWork.jsp";
+    public static final String CREATE_PROJECT_PAGE = PREFIX + PathsHolder.MANAGER_PREFIX
+            + "/addProject.jsp";
 
     // developer's pages
     public static final String DEVELOPER_HOME_PAGE = PREFIX + PathsHolder.DEVELOPER_PREFIX + PROFILE;

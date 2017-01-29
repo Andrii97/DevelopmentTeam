@@ -36,6 +36,9 @@ public class PathsHolder {
     public static final String TASKS = DEVELOPER_PREFIX + "/tasks";
     public static final String PROJECTS = MANAGER_PREFIX + "/projects";
 
+    public static final String STATEMENTS_OF_WORK = MANAGER_PREFIX + "/statementsOfWork";
+    public static final String CREATE_PROJECT = STATEMENTS_OF_WORK + "/addProject/";
+
     public static final String PAGE_NOT_FOUND = "/notFound";
 
     public static final Map<Role, String> roleUrlMap = new HashMap<Role, String>() {{

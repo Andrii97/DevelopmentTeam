@@ -11,7 +11,7 @@ public class StatementOfWork {
     private String name;
     private LocalDate filingDate;
     private List<Task> tasks;
-    private Integer customerId;
+    private User customer;
     private Boolean isApproved;
 
     public Integer getId() {
@@ -46,12 +46,12 @@ public class StatementOfWork {
         this.tasks = tasks;
     }
 
-    public Integer getCustomerId() {
-        return customerId;
+    public User getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setCustomer(User customer) {
+        this.customer = customer;
     }
 
     public Boolean getApproved() {
@@ -77,7 +77,7 @@ public class StatementOfWork {
         if (!name.equals(that.name)) return false;
         if (filingDate != null ? !filingDate.equals(that.filingDate) : that.filingDate != null) return false;
         if (tasks != null ? !tasks.equals(that.tasks) : that.tasks != null) return false;
-        if (!customerId.equals(that.customerId)) return false;
+        if (!customer.equals(that.customer)) return false;
         return isApproved.equals(that.isApproved);
     }
 
@@ -87,7 +87,7 @@ public class StatementOfWork {
         result = 31 * result + name.hashCode();
         result = 31 * result + (filingDate != null ? filingDate.hashCode() : 0);
         result = 31 * result + (tasks != null ? tasks.hashCode() : 0);
-        result = 31 * result + customerId.hashCode();
+        result = 31 * result + customer.hashCode();
         result = 31 * result + isApproved.hashCode();
         return result;
     }
@@ -99,7 +99,7 @@ public class StatementOfWork {
                 ", name='" + name + '\'' +
                 ", filingDate=" + filingDate +
                 ", tasks=" + tasks +
-                ", customerId=" + customerId +
+                ", customer=" + customer +
                 ", isApproved=" + isApproved +
                 '}';
     }
@@ -127,8 +127,8 @@ public class StatementOfWork {
             return this;
         }
 
-        public Builder setCustomerId(Integer customerId) {
-            instance.customerId = customerId;
+        public Builder setCustomer(User customer) {
+            instance.customer = customer;
             return this;
         }
 

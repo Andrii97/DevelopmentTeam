@@ -48,6 +48,9 @@ public class CommandHolder {
         commands.put(POST + PathsHolder.ADD_TASK, new AddTaskForStatementOfWork());
 
         // manager's
+        commands.put(GET + PathsHolder.PROJECTS, new GetProjects());
+        commands.put(GET + PathsHolder.STATEMENTS_OF_WORK, new GetStatementsOfWork());
+        commands.put(GET + PathsHolder.CREATE_PROJECT, new CreateProject());
         commands.put(GET + PathsHolder.USERS, new GetUsers());
         commands.put(GET + PathsHolder.ADD_USER, new GetAddNewUserPage());
         commands.put(POST + PathsHolder.ADD_USER, new AddNewUser());

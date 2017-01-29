@@ -62,7 +62,7 @@ public class CreateStatementOfWork implements Command {
         return new StatementOfWork.Builder()
                 .setName(request.getParameter(AttributesHolder.NAME))
                 .setFilingDate(LocalDate.now())
-                .setCustomerId(customer.getId())
+                .setCustomer(customer)
                 .setTasks(tasks)
                 .build();
     }

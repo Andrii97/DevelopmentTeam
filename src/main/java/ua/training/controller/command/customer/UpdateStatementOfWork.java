@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.training.controller.FrontController;
 import ua.training.controller.command.Command;
 import ua.training.model.entity.StatementOfWork;
+import ua.training.model.entity.User;
 import ua.training.model.service.StatementOfWorkService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PathsHolder;
@@ -35,13 +36,13 @@ public class UpdateStatementOfWork implements Command {
     private StatementOfWork getStatementOfWorkFromRequest(HttpServletRequest request) {
         Integer id = Integer.parseInt(request.getParameter(AttributesHolder.ID));
         String name = request.getParameter(AttributesHolder.NAME);
-        Integer customerId = Integer.parseInt(request.getParameter(AttributesHolder.CUSTOMER_ID));
+        User customer = (User)request.getSession().getAttribute(AttributesHolder.USER);
         LocalDate fillingDate = LocalDate.parse(request.getParameter(AttributesHolder.FILLING_DATE));
         Boolean isApproved = Boolean.parseBoolean(request.getParameter(AttributesHolder.APPROVED));
         return new StatementOfWork.Builder()
                 .setId(id)
                 .setName(name)
-                .setCustomerId(customerId)
+                .setCustomer(customer)
                 .setFilingDate(fillingDate)
                 .setApproved(isApproved)
                 .build();

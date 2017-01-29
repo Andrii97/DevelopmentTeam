@@ -29,7 +29,7 @@
             <th><fmt:message key="task.is.finished"/></th>
             <th><fmt:message key="task.requirements"/></th>
         </tr>
-        <c:forEach var="task" items="${tasks}">
+        <c:forEach var="task" items="${requestScope[AttributesHolder.tasks}">
             <tr>
                 <td><c:out value="${task.id}"/></td>
                 <td><c:out value="${task.name}"/></td>

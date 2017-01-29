@@ -23,14 +23,14 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
     private static final String SELECT_FROM_USER = "SELECT * FROM user ";
     private static final String WHERE_ID = "WHERE id = ? ";
 
-    private static final String ID = "id";
-    private static final String FIRST_NAME = "first_name";
-    private static final String MIDDLE_NAME = "middle_name";
-    private static final String LAST_NAME = "last_name";
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
-    private static final String ROLE = "role";
-    private static final String IS_ACTIVE = "is_active";
+    private static final String ID = "user.id";
+    private static final String FIRST_NAME = "user.first_name";
+    private static final String MIDDLE_NAME = "user.middle_name";
+    private static final String LAST_NAME = "user.last_name";
+    private static final String EMAIL = "user.email";
+    private static final String PASSWORD = "user.password";
+    private static final String ROLE = "user.role";
+    private static final String IS_ACTIVE = "user.is_active";
 
     private static Logger logger = Logger.getLogger(JdbcUserDao.class);
 
@@ -59,6 +59,11 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     protected User getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        return getUserFromResultSet(resultSet);
+    }
+
+    static User getUserFromResultSet(ResultSet resultSet) throws SQLException {
+        String role = resultSet.getString(ROLE);
         return new User.Builder()
                 .setId(resultSet.getInt(ID))
                 .setFirstName(resultSet.getString(FIRST_NAME))
@@ -67,7 +72,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
                 .setEmail(resultSet.getString(EMAIL))
                 .setPassword(resultSet.getString(PASSWORD))
                 .setActive(resultSet.getBoolean(IS_ACTIVE))
-                .setRole(Role.valueOf(resultSet.getString(ROLE)))
+                .setRole(role == null ? null : Role.valueOf(role))
                 .build();
     }
 

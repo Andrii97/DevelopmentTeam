@@ -8,10 +8,10 @@ import java.time.LocalDate;
 public class Project {
     private Integer id;
     private String name;
-    private Integer statementOfWorkId;
+    private StatementOfWork statementOfWork;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer managerId;
+    private User manager;
     private Long bill;
 
     public Integer getId() {
@@ -30,12 +30,12 @@ public class Project {
         this.name = name;
     }
 
-    public Integer getStatementOfWorkId() {
-        return statementOfWorkId;
+    public StatementOfWork getStatementOfWork() {
+        return statementOfWork;
     }
 
-    public void setStatementOfWorkId(Integer statementOfWorkId) {
-        this.statementOfWorkId = statementOfWorkId;
+    public void setStatementOfWork(StatementOfWork statementOfWork) {
+        this.statementOfWork = statementOfWork;
     }
 
     public LocalDate getStartDate() {
@@ -54,12 +54,12 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public Integer getManagerId() {
-        return managerId;
+    public User getManager() {
+        return manager;
     }
 
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
+    public void setManager(User manager) {
+        this.manager = manager;
     }
 
     public Long getBill() {
@@ -79,11 +79,11 @@ public class Project {
 
         if (!id.equals(project.id)) return false;
         if (name != null ? !name.equals(project.name) : project.name != null) return false;
-        if (statementOfWorkId != null ? !statementOfWorkId.equals(project.statementOfWorkId) : project.statementOfWorkId != null)
+        if (statementOfWork != null ? !statementOfWork.equals(project.statementOfWork) : project.statementOfWork != null)
             return false;
         if (startDate != null ? !startDate.equals(project.startDate) : project.startDate != null) return false;
         if (endDate != null ? !endDate.equals(project.endDate) : project.endDate != null) return false;
-        if (managerId != null ? !managerId.equals(project.managerId) : project.managerId != null) return false;
+        if (manager != null ? !manager.equals(project.manager) : project.manager != null) return false;
         return bill != null ? bill.equals(project.bill) : project.bill == null;
     }
 
@@ -91,10 +91,10 @@ public class Project {
     public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (statementOfWorkId != null ? statementOfWorkId.hashCode() : 0);
+        result = 31 * result + (statementOfWork != null ? statementOfWork.hashCode() : 0);
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
+        result = 31 * result + (manager != null ? manager.hashCode() : 0);
         result = 31 * result + (bill != null ? bill.hashCode() : 0);
         return result;
     }
@@ -104,10 +104,10 @@ public class Project {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", statementOfWorkId=" + statementOfWorkId +
+                ", statementOfWork=" + statementOfWork +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", managerId=" + managerId +
+                ", manager=" + manager +
                 ", bill=" + bill +
                 '}';
     }
@@ -125,8 +125,8 @@ public class Project {
             return this;
         }
 
-        public Builder setStatementOfWorkId(Integer statementOfWorkId) {
-            instance.statementOfWorkId = statementOfWorkId;
+        public Builder setStatementOfWork(StatementOfWork statementOfWork) {
+            instance.statementOfWork = statementOfWork;
             return this;
         }
 
@@ -140,8 +140,8 @@ public class Project {
             return this;
         }
 
-        public Builder setManagerId(Integer managerId) {
-            instance.managerId = managerId;
+        public Builder setManager(User manager) {
+            instance.manager = manager;
             return this;
         }
 

@@ -64,10 +64,9 @@ public class FrontController extends HttpServlet {
             return;
         } catch (ApplicationException e) {
             request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
-            logger.error(e.getStackTrace());
+            logger.error("Error", e);
         } catch (Exception e) {
-            logger.error(e);
-            logger.error(e.getStackTrace());
+            logger.error("Errror", e);
             request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE,
                     ErrorsMessages.NOT_EXCEPTED_ERROR);
         }

@@ -21,24 +21,19 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
             "DELETE FROM developer WHERE user_id = ? ";
     private static final String INSERT_INTO_DEVELOPER = "INSERT INTO developer " +
             "(user_id, qualification) VALUES (?, ?)  ";
-    private static final String SELECT_FROM_DEVELOPER = "SELECT * FROM developer" +
-            " JOIN user ON developer.user_id = user.id ";
+    private static final String SELECT_FROM_DEVELOPER = "SELECT * FROM developer " +
+            "RIGHT JOIN user ON developer.user_id = user.id ";
+    private static final String UPDATE_DEVELOPER_BY_USER_ID =
+            "UPDATE statement_of_work SET qualification = ?, " +
+                    "is_free = ? WHERE id = ? ";
+    private static final String WHERE_ROLE_EQUALS_DEVELOPER = "WHERE user.role = 'DEVELOPER "; // todo
     private static final String WHERE_QUALIFICATION = "WHERE developer.qualification = ? ";
     private static final String WHERE_ID = "WHERE developer.user_id = ? ";
 
-    private static final String USER_ID = "user_id";
-    private static final String QUALIFICATION = "qualification";
-    private static final String IS_FREE = "is_free";
+    private static final String USER_ID = "developer.user_id";
+    private static final String QUALIFICATION = "developer.qualification";
+    private static final String IS_FREE = "developer.is_free";
 
-    // user
-    private static final String ID = "id";
-    private static final String FIRST_NAME = "first_name";
-    private static final String MIDDLE_NAME = "middle_name";
-    private static final String LAST_NAME = "last_name";
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
-    private static final String ROLE = "role";
-    private static final String IS_ACTIVE = "is_active";
 
     private static Logger logger = Logger.getLogger(AbstractJdbcDao.class);
 
@@ -48,7 +43,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected String getSelectAllQuery() {
-        return SELECT_FROM_DEVELOPER;
+        return SELECT_FROM_DEVELOPER + WHERE_ROLE_EQUALS_DEVELOPER;
     }
 
     @Override
@@ -58,7 +53,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected String getUpdateQuery() {
-        throw new UnsupportedOperationException();
+        return UPDATE_DEVELOPER_BY_USER_ID;
     }
 
     @Override
@@ -68,18 +63,10 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected Developer getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        String qualification = resultSet.getString(QUALIFICATION);
         return new Developer.Builder()
-                .setUser(new User.Builder()
-                                .setId(resultSet.getInt(ID))
-                                .setFirstName(resultSet.getString(FIRST_NAME))
-                                .setMiddleName(resultSet.getString(MIDDLE_NAME))
-                                .setLastName(resultSet.getString(LAST_NAME))
-                                .setEmail(resultSet.getString(EMAIL))
-                                .setPassword(resultSet.getString(PASSWORD))
-                                .setActive(resultSet.getBoolean(IS_ACTIVE))
-                                .setRole(Role.valueOf(resultSet.getString(ROLE)))
-                                .build())
-                .setQualification(Qualification.valueOf(resultSet.getString(QUALIFICATION)))
+                .setUser(JdbcUserDao.getUserFromResultSet(resultSet))
+                .setQualification((qualification == null) ? null : Qualification.valueOf(qualification))
                 .setFree(resultSet.getBoolean(IS_FREE))
                 .build();
     }
@@ -96,8 +83,11 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
     }
 
     @Override
-    protected void prepareStatementForUpdate(PreparedStatement query, Developer entity) {
-        throw new UnsupportedOperationException();
+    protected void prepareStatementForUpdate(PreparedStatement query, Developer entity)
+            throws SQLException {
+        query.setString(1, entity.getQualification().name());
+        query.setBoolean(2, entity.getFree());
+        query.setInt(3, entity.getUser().getId());
     }
 
     @Override
