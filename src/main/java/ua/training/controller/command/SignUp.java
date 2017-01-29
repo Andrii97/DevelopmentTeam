@@ -1,6 +1,5 @@
 package ua.training.controller.command;
 
-import ua.training.config.DevelopmentTeamConfig;
 import ua.training.controller.FrontController;
 import ua.training.controller.validator.Errors;
 import ua.training.controller.validator.UserValidator;
@@ -9,6 +8,7 @@ import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
+import ua.training.utils.constants.PagesHolder;
 import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
@@ -31,13 +31,14 @@ public class SignUp implements Command {
             userService.create(user);
             request.getSession().setAttribute(AttributesHolder.USER, user);
             // redirect to profile
-            response.sendRedirect(DevelopmentTeamConfig.roleUrlMap.get(user.getRole()));
+            response.sendRedirect(PathsHolder.roleUrlMap.get(user.getRole()));
             return FrontController.REDIRECT;
         }
         user.setPassword(null);
-        request.getSession().setAttribute(AttributesHolder.USER, user);
-        request.getSession().setAttribute(AttributesHolder.ERRORS, errors);
-        return PathsHolder.BASIC + PathsHolder.SIGN_UP;
+        request.setAttribute(AttributesHolder.USER, user); // toDo: new user
+        request.setAttribute(AttributesHolder.ERRORS, errors);
+        request.setAttribute(AttributesHolder.ROLES, Role.values());
+        return PagesHolder.SIGN_UP;
     }
 
     private User buildUser(HttpServletRequest request) {

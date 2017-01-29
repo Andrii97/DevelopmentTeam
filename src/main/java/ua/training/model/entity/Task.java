@@ -1,5 +1,6 @@
 package ua.training.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -133,6 +134,9 @@ public class Task {
         }
 
         public Builder setTaskRequirements(List<TaskRequirements> taskRequirements) {
+            if(taskRequirements == null) {
+                taskRequirements = new ArrayList<>();
+            }
             instance.taskRequirements = taskRequirements;
             return this;
         }

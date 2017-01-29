@@ -1,7 +1,6 @@
 package ua.training.controller.filter;
 
 import org.apache.log4j.Logger;
-import ua.training.config.DevelopmentTeamConfig;
 import ua.training.model.entity.Role;
 import ua.training.model.entity.User;
 import ua.training.utils.constants.AttributesHolder;
@@ -23,6 +22,7 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
     @Override
@@ -41,7 +41,7 @@ public class AuthFilter implements Filter {
     }
 
     private String getHomeUrl(Role role) {
-        return role == null ? PathsHolder.LOGIN : DevelopmentTeamConfig.roleUrlMap.get(role);
+        return role == null ? PathsHolder.LOGIN : PathsHolder.roleUrlMap.get(role);
     }
 
     private Role getUserRole(HttpServletRequest request) {
@@ -56,7 +56,7 @@ public class AuthFilter implements Filter {
     }
 
     private boolean checkUriByRole(String uri, Role role) {
-        return role != null && uri.startsWith(DevelopmentTeamConfig.roleUrlMap.get(role));
+        return role != null && uri.startsWith(PathsHolder.roleUrlMap.get(role));
     }
 
     @Override

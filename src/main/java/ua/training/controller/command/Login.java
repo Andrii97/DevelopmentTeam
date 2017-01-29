@@ -1,11 +1,11 @@
 package ua.training.controller.command;
 
-import ua.training.config.DevelopmentTeamConfig;
 import ua.training.controller.FrontController;
 import ua.training.model.entity.*;
 import ua.training.model.service.UserService;
 import ua.training.utils.constants.AttributesHolder;
 import ua.training.utils.constants.PagesHolder;
+import ua.training.utils.constants.PathsHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class Login implements Command {
             User user = userService.login(email, password);
             request.getSession()
                     .setAttribute(AttributesHolder.USER, user);
-            pageToGo = DevelopmentTeamConfig.roleUrlMap.get(user.getRole());
+            pageToGo = PathsHolder.roleUrlMap.get(user.getRole());
             response.sendRedirect(pageToGo);
             pageToGo = FrontController.REDIRECT;
         }

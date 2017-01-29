@@ -1,5 +1,10 @@
 package ua.training.utils.constants;
 
+import ua.training.model.entity.Role;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by andrii on 21.01.17.
  */
@@ -32,4 +37,10 @@ public class PathsHolder {
     public static final String PROJECTS = MANAGER_PREFIX + "/projects";
 
     public static final String PAGE_NOT_FOUND = "/notFound";
+
+    public static final Map<Role, String> roleUrlMap = new HashMap<Role, String>() {{
+        put(Role.CUSTOMER, CUSTOMER_URL);
+        put(Role.MANAGER, MANAGER_URL);
+        put(Role.DEVELOPER, DEVELOPER_URL);
+    }};
 }

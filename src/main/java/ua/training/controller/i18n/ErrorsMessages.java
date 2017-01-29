@@ -19,4 +19,5 @@ public class ErrorsMessages {
     public static final String SERVICE_ERROR_ADD_SOW_TASKS_NOT_FOUND =
             "error.service.add.sow.tasks.not.found";
     public static final String NOT_EXCEPTED_ERROR = "error.not.excepted";
+    public static final String NUMBER_INVALID = "number.invalid";
 }

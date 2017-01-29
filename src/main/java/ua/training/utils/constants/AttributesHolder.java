@@ -36,4 +36,5 @@ public class AttributesHolder {
 
     public static final String ERRORS = "errors";
     public static final String ERROR_MESSAGE = "system error";
+    public static final String NUMBER = "number";
 }

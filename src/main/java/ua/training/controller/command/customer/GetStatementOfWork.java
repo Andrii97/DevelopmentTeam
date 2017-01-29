@@ -28,7 +28,7 @@ public class GetStatementOfWork implements Command {
         Optional<StatementOfWork> statementOfWork = statementOfWorkService
                 .getById(statementOfWorkId);
         statementOfWork.ifPresent((sow) -> request.setAttribute(AttributesHolder.STATEMENT_OF_WORK, sow));
-
+        // todo if not present
         return PagesHolder.STATEMENT_OF_WORK_PAGE;
     }
 }

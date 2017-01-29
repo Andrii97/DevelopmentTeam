@@ -44,7 +44,7 @@ public class CommandHolder {
         commands.put(GET + PathsHolder.STATEMENTS_OF_WORK_BY_CUSTOMER,
                 new GetStatementsOfWorkByCustomer());
         commands.put(POST + PathsHolder.STATEMENT_OF_WORK, new UpdateStatementOfWork());
-        commands.put(GET + PathsHolder.DELETE_STATEMENT_OF_WORK, new DeleteStatementOfWork());
+        commands.put(GET + PathsHolder.DELETE_STATEMENT_OF_WORK, new DeleteStatementOfWork()); // todo must be post?
         commands.put(POST + PathsHolder.ADD_TASK, new AddTaskForStatementOfWork());
 
         // manager's

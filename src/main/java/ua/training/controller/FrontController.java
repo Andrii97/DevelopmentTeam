@@ -45,7 +45,7 @@ public class FrontController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String commandKey = getMethod(request) + CommandHolder.DELIMITER + getPath(request);
-        logger.debug("KEY = " + commandKey);
+        logger.debug(commandKey);
         Command command = commandHolder.getCommand(commandKey);
         logger.debug(command);
         checkIfErrorIsPresent(request);
@@ -55,6 +55,7 @@ public class FrontController extends HttpServlet {
     private void executeCommand(HttpServletRequest request, HttpServletResponse response, Command command) throws IOException {
         try{
             String path = command.execute(request, response);
+            logger.info(path);
             if(!isRedirected(path)) {
                 request.getRequestDispatcher(path).forward(request, response);
             } else {
@@ -63,13 +64,24 @@ public class FrontController extends HttpServlet {
             return;
         } catch (ApplicationException e) {
             request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
+            logger.error(e.getStackTrace());
         } catch (Exception e) {
             logger.error(e);
+            logger.error(e.getStackTrace());
             request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE,
                     ErrorsMessages.NOT_EXCEPTED_ERROR);
         }
-        String regex = "//" + RegExp.NUMBER; // todo: static variable in RegExp
-        response.sendRedirect(request.getRequestURI().replaceAll(regex, ""));
+        String regex = "/" + RegExp.NUMBER; // todo: static variable in RegExp
+        String uri = request.getRequestURI();
+        logger.info("Requested uri = " + uri);
+        logger.info("without / number uri = " + uri.replaceAll(regex, ""));
+        logger.info("without delete uri = " + uri.replaceAll("/delete", ""));
+        logger.info("without delete and number" + uri
+                .replaceAll(regex, "")
+                .replaceAll("/delete", ""));
+        response.sendRedirect(request.getRequestURI()
+                .replaceAll(regex, "")
+                .replaceAll("/delete", ""));
         logger.error(AttributesHolder.ERROR_MESSAGE);
     }
 

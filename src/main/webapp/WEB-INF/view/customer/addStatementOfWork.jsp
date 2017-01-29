@@ -27,6 +27,7 @@
             <th><fmt:message key="task.name"/></th>
             <th><fmt:message key="task.description"/></th>
             <th><fmt:message key="task.is.finished"/></th>
+            <th><fmt:message key="task.requirements"/></th>
         </tr>
         <c:forEach var="task" items="${tasks}">
             <tr>
@@ -34,6 +35,12 @@
                 <td><c:out value="${task.name}"/></td>
                 <td><c:out value="${task.description}"/></td>
                 <td><c:out value="${task.finished}"/></td>
+                <td>
+                    <c:forEach var="requirements" items="${task.taskRequirements}">
+                        <c:out value="${requirements.qualification}"/>:
+                        <c:out value="${requirements.developersNumber}"/>
+                    </c:forEach>
+                </td>
             </tr>
         </c:forEach>
     </table>
@@ -65,6 +72,11 @@
                 <input type="number" name="${AttributesHolder.TASK_NEEDED_SENIORS}"/><br/>
             </div>
         </div>
+        <c:if test="${errors != null && errors.messages[AttributesHolder.NUMBER] != null}">
+            <div class="alrt alert-danger">
+                <fmt:message key="${errors.messages[AttributesHolder.NUMBER]}"/>
+            </div>
+        </c:if>
         <button type="submit"><fmt:message key="save"/> <fmt:message key="task"/></button>
     </form>
     <hr/>
