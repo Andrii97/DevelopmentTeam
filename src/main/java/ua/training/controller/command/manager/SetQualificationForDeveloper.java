@@ -47,7 +47,7 @@ public class SetQualificationForDeveloper implements Command {
         String qualification = request.getParameter(AttributesHolder.QUALIFICATION);
         return new Developer.Builder()
                 .setUser(new User.Builder()
-                        .setId(Integer.parseInt(request.getParameter(AttributesHolder.ID)))
+                        .setId(Integer.parseInt(request.getParameter(AttributesHolder.ID))) // todo validate
                         .build())
                 .setQualification(getQualificationFromString(qualification))
                 .build();

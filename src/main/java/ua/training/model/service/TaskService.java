@@ -66,4 +66,19 @@ public class TaskService {
             return dao.find(id);
         }
     }
+    public void updateElapsedTimeForTask(DeveloperHasTask developerHasTask) {
+        try( DaoConnection connection = daoFactory.getConnection() ){
+            DeveloperHasTaskDao dao = daoFactory.createDeveloperHasTaskDao(connection);
+            connection.begin();
+            Optional<DeveloperHasTask> oldDeveloper = dao.findByDeveloperIdAndTaskId(
+                    developerHasTask.getDeveloper().getUser().getId(),
+                    developerHasTask.getTask().getId());
+            oldDeveloper.ifPresent(d -> {
+                d.setElapsedTime(developerHasTask.getElapsedTime());
+                dao.update(d);
+            });
+            connection.commit();
+        }
+    }
+
 }

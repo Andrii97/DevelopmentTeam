@@ -17,6 +17,7 @@ public class AttributesHolder {
     public static final String USERS = "users";
     public static final String PROJECTS = "projects";
 
+    public static final String TASK_ID = "taskId";
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String FILLING_DATE = "fillingDate";
@@ -36,6 +37,7 @@ public class AttributesHolder {
     public static final String TASK_NEEDED_SENIORS = "taskNeededSeniors";
     public static final String QUALIFICATION = "qualification";
 //    public static final String DEVELOPER = "developer";
+    public static final String ELAPSED_TIME = "elapsedTime";
 
     public static final String ERRORS = "errors";
     public static final String ERROR_MESSAGE = "system error";

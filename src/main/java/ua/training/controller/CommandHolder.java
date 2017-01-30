@@ -52,9 +52,11 @@ public class CommandHolder {
         commands.put(GET + PathsHolder.STATEMENTS_OF_WORK, new GetStatementsOfWork());
         commands.put(GET + PathsHolder.CREATE_PROJECT, new CreateProject());
         commands.put(GET + PathsHolder.DEVELOPERS, new GetDevelopers());
-//        commands.put(GET + PathsHolder.ADD_USER, new GetAddNewUserPage());
         commands.put(POST + PathsHolder.DEVELOPERS, new SetQualificationForDeveloper());
+
+        // developer's
         commands.put(GET + PathsHolder.TASKS, new GetTasksByDeveloper());
+        commands.put(POST + PathsHolder.TASKS, new SetElapsedTimeForTask());
     }
 
     Command getCommand(String commandKey) {
