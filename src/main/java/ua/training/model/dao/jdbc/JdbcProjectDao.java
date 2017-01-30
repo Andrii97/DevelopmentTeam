@@ -60,12 +60,17 @@ public class JdbcProjectDao extends AbstractJdbcDao<Project> implements ProjectD
 
     @Override
     protected Project getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        return getProjectFromResultSet(resultSet);
+    }
+
+    static Project getProjectFromResultSet(ResultSet resultSet) throws SQLException {
         return new Project.Builder()
                 .setId(resultSet.getInt(ID))
                 .setName(resultSet.getString(NAME))
                 .setStartDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(START_DATE)))
                 .setEndDate(ConvertDate.convertDateToLocalDate(resultSet.getDate(END_DATE)))
-                .setStatementOfWork(JdbcStatementOfWorkDao.getStatementOfWorkFromResultSet(resultSet))
+                .setStatementOfWork(JdbcStatementOfWorkDao
+                        .getStatementOfWorkFromResultSet(resultSet))
                 .setManager(JdbcUserDao.getUserFromResultSet(resultSet))
                 .setBill(resultSet.getLong(BILL))
                 .build();

@@ -41,12 +41,13 @@ public class TaskService {
         }
     }
 
-    public List<Task> getByDeveloper(User developer) {
+    public List<DeveloperHasTask> getByDeveloper(User developer) {
         try( DaoConnection connection = daoFactory.getConnection() ){
             TaskDao dao = daoFactory.createTaskDao(connection);
             DeveloperHasTaskDao developerHasTaskDao = daoFactory
                     .createDeveloperHasTaskDao(connection);
-            List<Task> result = developerHasTaskDao.findByDeveloperId(developer.getId());
+            List<DeveloperHasTask> result = developerHasTaskDao
+                    .findByDeveloperId(developer.getId());
             return result;
         }
     }

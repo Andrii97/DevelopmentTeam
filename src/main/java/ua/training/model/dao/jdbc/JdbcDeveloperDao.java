@@ -26,7 +26,7 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
     private static final String UPDATE_DEVELOPER_BY_USER_ID =
             "UPDATE statement_of_work SET qualification = ?, " +
                     "is_free = ? WHERE id = ? ";
-    private static final String WHERE_ROLE_EQUALS_DEVELOPER = "WHERE user.role = 'DEVELOPER "; // todo
+    private static final String WHERE_ROLE_EQUALS_DEVELOPER = "WHERE user.role = 'DEVELOPER' "; // todo
     private static final String WHERE_QUALIFICATION = "WHERE developer.qualification = ? ";
     private static final String WHERE_ID = "WHERE developer.user_id = ? ";
 
@@ -63,10 +63,15 @@ public class JdbcDeveloperDao extends AbstractJdbcDao<Developer> implements Deve
 
     @Override
     protected Developer getEntityFromResultSet(ResultSet resultSet) throws SQLException {
+        return getDeveloperFromResultSet(resultSet);
+    }
+
+    static Developer getDeveloperFromResultSet(ResultSet resultSet) throws SQLException {
         String qualification = resultSet.getString(QUALIFICATION);
         return new Developer.Builder()
                 .setUser(JdbcUserDao.getUserFromResultSet(resultSet))
-                .setQualification((qualification == null) ? null : Qualification.valueOf(qualification))
+                .setQualification((qualification == null) ?
+                        null : Qualification.valueOf(qualification))
                 .setFree(resultSet.getBoolean(IS_FREE))
                 .build();
     }

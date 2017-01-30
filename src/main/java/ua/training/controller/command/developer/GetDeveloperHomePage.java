@@ -14,6 +14,6 @@ import java.io.IOException;
 public class GetDeveloperHomePage implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return PagesHolder.DEVELOPER_HOME_PAGE;
+        return PagesHolder.HOME_PAGE;
     }
 }

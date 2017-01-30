@@ -53,6 +53,7 @@ public class FrontController extends HttpServlet {
     }
 
     private void executeCommand(HttpServletRequest request, HttpServletResponse response, Command command) throws IOException {
+        String error;
         try{
             String path = command.execute(request, response);
             logger.info(path);
@@ -63,31 +64,26 @@ public class FrontController extends HttpServlet {
             }
             return;
         } catch (ApplicationException e) {
-            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
+            error = e.getMessageKey();
+            //request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE, e.getMessageKey());
             logger.error("Error", e);
         } catch (Exception e) {
-            logger.error("Errror", e);
-            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE,
-                    ErrorsMessages.NOT_EXCEPTED_ERROR);
+            error = ErrorsMessages.NOT_EXCEPTED_ERROR;
+            logger.error("Error", e);
+//            request.getSession().setAttribute(AttributesHolder.ERROR_MESSAGE,
+//                    ErrorsMessages.NOT_EXCEPTED_ERROR);
         }
         String regex = "/" + RegExp.NUMBER; // todo: static variable in RegExp
         String uri = request.getRequestURI();
-        logger.info("Requested uri = " + uri);
-        logger.info("without / number uri = " + uri.replaceAll(regex, ""));
-        logger.info("without delete uri = " + uri.replaceAll("/delete", ""));
-        logger.info("without delete and number" + uri
-                .replaceAll(regex, "")
-                .replaceAll("/delete", ""));
         response.sendRedirect(request.getRequestURI()
                 .replaceAll(regex, "")
-                .replaceAll("/delete", ""));
+                .replaceAll("/delete", "") + "?"+ AttributesHolder.ERROR_MESSAGE + "=" + error);
         logger.error(AttributesHolder.ERROR_MESSAGE);
     }
 
     private void checkIfErrorIsPresent(HttpServletRequest request) {
         request.setAttribute(AttributesHolder.ERROR_MESSAGE,
-                request.getSession().getAttribute(AttributesHolder.ERROR_MESSAGE));
-        request.getSession().removeAttribute(AttributesHolder.ERROR_MESSAGE);
+                request.getParameter(AttributesHolder.ERROR_MESSAGE));
     }
 
     private boolean isRedirected(String path) {

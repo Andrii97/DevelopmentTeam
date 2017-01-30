@@ -23,14 +23,19 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
     private static final String INSERT_INTO_DEVELOPER_HAS_TASK = "INSERT INTO " +
             "developer_has_task (developer_id, task_id, project_id, elapsed_time)" +
             " VALUES ( ?, ?, ?, ? ) ";
-    private static final String SELECT_FROM_DEVELOPER_HAS_TASK =
-            "SELECT * FROM developer_has_task JOIN task ON task.id = developer_has_task.task_id ";
-    private static final String WHERE_DEVELOPER_ID = "WHERE developer_has_task.developer_user_id = ? ";
+    private static final String SELECT_FROM_DEVELOPER_HAS_TASK = "SELECT * FROM " +
+            "developer_has_task JOIN task ON task.id = developer_has_task.task_id " +
+            "JOIN project ON project.id = developer_has_task.project_id " +
+            "JOIN user ON user.id = developer_has_task.developer_user_id " +
+            "JOIN developer ON user.id = developer.user_id " +
+            "JOIN statement_of_work ON statement_of_work.id = project.statement_of_work_id ";;
+    private static final String WHERE_DEVELOPER_ID =
+            "WHERE developer_has_task.developer_user_id = ? ";
 
-    public static final String DEVELOPER_ID = "developer_user_id";
-    public static final String TASK_ID = "task_id";
-    public static final String PROJECT_ID = "project_id";
-    public static final String ELAPSED_TIME = "elapsed_time";
+    public static final String DEVELOPER_ID = "developer_has_task.developer_user_id";
+    public static final String TASK_ID = "developer_has_task.task_id";
+    public static final String PROJECT_ID = "developer_has_task.project_id";
+    public static final String ELAPSED_TIME = "developer_has_task.elapsed_time";
 
     private static Logger logger = Logger.getLogger(JdbcDeveloperHasTaskDao.class);
 
@@ -61,9 +66,9 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
     @Override
     protected DeveloperHasTask getEntityFromResultSet(ResultSet resultSet) throws SQLException {
         return new DeveloperHasTask.Builder()
-                .setDeveloperId(resultSet.getInt(DEVELOPER_ID))
-                .setTaskId(resultSet.getInt(TASK_ID))
-                .setProjectId(resultSet.getInt(PROJECT_ID))
+                .setDeveloper(JdbcDeveloperDao.getDeveloperFromResultSet(resultSet))
+                .setTask(JdbcTaskDao.getTaskFromResultSet(resultSet))
+                .setProject(JdbcProjectDao.getProjectFromResultSet(resultSet))
                 .setElapsedTime(resultSet.getInt(ELAPSED_TIME))
                 .build();
     }
@@ -76,9 +81,9 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
     @Override
     protected void prepareStatementForInsert(PreparedStatement query, DeveloperHasTask entity)
             throws SQLException {
-        query.setInt(1 , entity.getDeveloperId());
-        query.setInt(2, entity.getTaskId());
-        query.setInt(3, entity.getProjectId());
+        query.setInt(1 , entity.getDeveloper().getUser().getId());
+        query.setInt(2, entity.getTask().getId());
+        query.setInt(3, entity.getProject().getId());
         query.setInt(4, entity.getElapsedTime());
     }
 
@@ -98,9 +103,8 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
     }
 
     @Override
-    public List<Task> findByDeveloperId(Integer id) { // todo
+    public List<DeveloperHasTask> findByDeveloperId(Integer id) { // todo
         List<DeveloperHasTask> result = new ArrayList<>();
-        List<Task> tasks = new ArrayList<>();
         try(PreparedStatement query =
                     connection.prepareStatement(SELECT_FROM_DEVELOPER_HAS_TASK
                             + WHERE_DEVELOPER_ID)){
@@ -108,12 +112,11 @@ public class JdbcDeveloperHasTaskDao extends AbstractJdbcDao<DeveloperHasTask>
             ResultSet resultSet = query.executeQuery();
             while (resultSet.next()) {
                 result.add(getEntityFromResultSet(resultSet));
-                tasks.add(JdbcTaskDao.parseResultSet(resultSet));
             }
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
         }
-        return tasks;
+        return result;
     }
 }

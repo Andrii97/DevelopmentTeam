@@ -30,8 +30,8 @@ public class PathsHolder {
     public static final String ADD_STATEMENT_OF_WORK = STATEMENTS_OF_WORK_BY_CUSTOMER + "/createSOW";
     public static final String ADD_TASK = ADD_STATEMENT_OF_WORK + "/addTask";
 
-    public static final String USERS = MANAGER_PREFIX + "/users";
-    public static final String ADD_USER = USERS + "/addUser";
+    public static final String DEVELOPERS = MANAGER_PREFIX + "/developers";
+//    public static final String ADD_USER = DEVELOPERS + "/addUser";
 
     public static final String TASKS = DEVELOPER_PREFIX + "/tasks";
     public static final String PROJECTS = MANAGER_PREFIX + "/projects";

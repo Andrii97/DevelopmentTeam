@@ -64,10 +64,10 @@ public class JdbcTaskDao extends AbstractJdbcDao<Task> implements TaskDao {
 
     @Override
     protected Task getEntityFromResultSet(ResultSet resultSet) throws SQLException {
-        return parseResultSet(resultSet);
+        return getTaskFromResultSet(resultSet);
     }
 
-    public static Task parseResultSet(ResultSet resultSet) throws SQLException {
+    static Task getTaskFromResultSet(ResultSet resultSet) throws SQLException {
         return new Task.Builder()
                 .setId(resultSet.getInt(ID))
                 .setName(resultSet.getString(NAME))

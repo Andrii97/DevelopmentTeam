@@ -25,7 +25,7 @@ public class JdbcStatementOfWorkDao extends AbstractJdbcDao<StatementOfWork>
     private static final String SELECT_FROM_STATEMENT_OF_WORK =
             "SELECT * FROM statement_of_work JOIN user ON user.id = statement_of_work.customer_id ";
     public static final String JOIN_ON_TASK =
-            "JOIN task ON task. =  JOIN task_requirements ON task.id = task_requirements.task_id ";
+            "JOIN task ON task.id =  JOIN task_requirements ON task.id = task_requirements.task_id ";
     private static final String UPDATE_STATEMENT_OF_WORK_BY_ID =
             "UPDATE statement_of_work SET name = ?,  filing_date = ?, " +
                     "is_approved = ? WHERE id = ? ";

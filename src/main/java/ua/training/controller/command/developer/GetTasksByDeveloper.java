@@ -1,6 +1,7 @@
 package ua.training.controller.command.developer;
 
 import ua.training.controller.command.Command;
+import ua.training.model.entity.DeveloperHasTask;
 import ua.training.model.entity.Task;
 import ua.training.model.entity.User;
 import ua.training.model.service.DeveloperService;
@@ -24,8 +25,8 @@ public class GetTasksByDeveloper implements Command {
             throws ServletException, IOException {
         User developer = (User) request.getSession().getAttribute(AttributesHolder.USER);
 
-        List<Task> tasks = taskService.getByDeveloper(developer);
-        request.setAttribute(AttributesHolder.TASKS, tasks);
+        List<DeveloperHasTask> tasks = taskService.getByDeveloper(developer); // todo: name
+        request.setAttribute(AttributesHolder.DEVELOPER_HAS_TASKS, tasks);
 
         return PagesHolder.TASKS_BY_DEVELOPER;
     }

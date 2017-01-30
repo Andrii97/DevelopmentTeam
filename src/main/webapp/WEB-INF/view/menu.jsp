@@ -11,7 +11,7 @@
             <ul class="nav navbar-nav">
                 <c:if test="${sessionScope[AttributesHolder.USER].role eq Role.MANAGER}">
                     <li><a href="${PathsHolder.MANAGER_URL}"><fmt:message key="menu.home.page"/></a></li>
-                    <li><a href="${PathsHolder.BASIC}${PathsHolder.USERS}"><fmt:message key="users"/></a></li>
+                    <li><a href="${PathsHolder.BASIC}${PathsHolder.DEVELOPERS}"><fmt:message key="developers"/></a></li>
                     <li><a href="${PathsHolder.BASIC}${PathsHolder.PROJECTS}"><fmt:message key="manager.projects"/></a></li>
                     <li><a href="${PathsHolder.BASIC}${PathsHolder.STATEMENTS_OF_WORK}">
                         <fmt:message key="manager.menu.statements.of.work"/>
